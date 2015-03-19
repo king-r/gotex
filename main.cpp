@@ -38,8 +38,7 @@ int main(int argc, char** argv)
     manager->start(argc, argv, error);
     delete manager;
     
-    std::cout << error->vector_of_tables.at(0).at(0) << std::endl;
-    
+        
     delete error;
     
     return 0;

@@ -9,7 +9,8 @@
 #define	CONSTSTRINGS_H
 #include <vector>
 
-typedef std::vector<std::vector<int> > tableoftables;
+typedef std::vector< std::vector<int> > tableoftables;
+
 
 class ConstStrings {
 public:
@@ -36,12 +37,13 @@ public:
     //
     // configurable strings
     static const std::string string_tabulator;
-    // basic file marker-strings
+    // basic file & correction marker-strings
     static const std::string marker_content;
     static const std::string marker_documentclass;
     static const std::string marker_header;
     static const std::string marker_base_doctitle;
     static const std::string marker_base_author;
+    static const std::string marker_correction_table_columns;
     // user command marker
     static const std::string marker_titlepage;
     static const std::string marker_img;
@@ -161,8 +163,9 @@ public:
     std::string document_title;
     std::string document_author;
     
-    // to cout the tables, columns and rows
-    //vector tables < int tableid, vector table<column,rows> 
+    // to count the tables, columns and rows
+    // usage: vector[row][columns]
+    std::vector<int> active_table;
     tableoftables vector_of_tables;
     // active_table-1
     int table_counter;

@@ -115,15 +115,38 @@ std::string LineStringBuilder::correctTexString(std::string in, ConstStrings* er
     }
     
     // set document author
-    if( (found_pos = in.find(ConstStrings::marker_base_author)) != std::string::npos)
+    if( (found_pos = in.find(ConstStrings::marker_base_author) ) != std::string::npos)
     {
         in.erase(found_pos, ConstStrings::marker_base_author.size());
         in.insert(found_pos, error->document_author);
     }
     
+    
+    if( (found_pos = in.find(ConstStrings::marker_correction_table_columns) ) != std::string::npos)
+    {
+        in.erase(found_pos, ConstStrings::marker_correction_table_columns.size());
+        std::vector<int> table = error->vector_of_tables.front();
+        error->table_counter++;
+        in.insert(found_pos, generateColumnsFromInt(table.at(0)));
+        error->vector_of_tables.erase(error->vector_of_tables.begin());
+    }
+    
     return in;
 }
 
+
+std::string LineStringBuilder::generateColumnsFromInt(int columns)
+{
+        // write columns
+    std::string columns_tex = "";
+    for(; columns > 0;columns--)
+    {
+        columns_tex = columns_tex + "|c";
+    }
+    columns_tex = columns_tex + "|";
+    
+    return columns_tex;
+}
 
 
 ////////////////////////////////
@@ -143,6 +166,9 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
         writeToFile(error->string_tabulator + error->string_hline, output);
         if((found_pos = in.find(error->marker_table_end)) != std::string::npos)
         {
+            // save vector of columns per row
+            error->vector_of_tables.at(error->table_counter-1) = (error->active_table);
+            error->active_table.clear();
             in = checkEndTable(in, output, error);
         }
         else
@@ -153,7 +179,7 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
             }
             
             // count the columns of the row 
-           int i = 2;
+            int i = 2;
             for(found_pos = 0; std::string::npos != (found_pos = in.find(error->string_and, found_pos+1) ); i++)
             {
                 size_t found_backslash = found_pos;
@@ -162,12 +188,11 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
                     i--;
                 }
             }
-            std::cout << i << std::endl;
-            //error->vector_of_tables[error->table_counter].push_back(i);
+            // save column quantity
+            error->active_table.push_back(i);
+            
             in = error->string_tabulator + in + " " + error->string_newline;
         }
-        
-        
         
         // characters usable in tables
         replaceIfFoundWithoutCharacter(in, ConstStrings::marker_hashtag, ConstStrings::string_hashtag, '\\');
@@ -245,9 +270,12 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
         checkTable(in, output, error);
         writeToFile(in, output);
         error->flag_table_mode = true;
-        
+
+        // insert new table into vector
         error->table_counter++;
-        std::cout << error->table_counter << std::endl;
+        error->vector_of_tables.resize(error->table_counter);
+        
+        //std::cout << error->table_counter << std::endl;
     }
     // if "#title" is found
     else if( (found_pos = in.find(ConstStrings::marker_title)) != std::string::npos)
@@ -428,31 +456,8 @@ std::string LineStringBuilder::checkTable(std::string& in, std::ofstream& output
     found_pos = in.find(error->marker_table);
     pos_x = in.find(" ", found_pos);
 
-    //read width of 
-    char c = '0';
-    int i = 1;
-
-    std::string width = "";
-    c = '0';
-    while((c != ' '))
-    {
-        if(pos_x + i >= in.size())
-            break;
-        c = in.at(pos_x + i);
-        in.at(pos_x + i) = ' ';
-        width = width + c;
-        i++;
-    }
-    int columns = atoi(width.c_str());
-    
-    std::string columns_tex = "";
-    for(; columns > 0;columns--)
-    {
-        columns_tex = columns_tex + "|c";
-    }
-    columns_tex = columns_tex + "|";
-    
-    std::string command_begin = error->string_table + columns_tex + error->string_close_bracket;
+    std::string command_begin = error->string_table + 
+            error->marker_correction_table_columns + error->string_close_bracket;
 
     in = replaceIfFound(in, error->marker_table, command_begin, 0);
     return in;

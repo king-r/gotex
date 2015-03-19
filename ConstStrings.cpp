@@ -7,6 +7,7 @@
 
 #include <iostream> // to print error message
 #include <string>
+#include <stdlib.h>
 #include "ConstStrings.h"
 
 using std::string;
@@ -39,6 +40,7 @@ const std::string ConstStrings::marker_documentclass = "#DOCUMENTCLASS#";
 const std::string ConstStrings::marker_header = "#HEADER#";
 const std::string ConstStrings::marker_base_doctitle = "#DOCTITLE#";
 const std::string ConstStrings::marker_base_author = "#AUTHOR#";
+const std::string ConstStrings::marker_correction_table_columns = "#COLUMNS#";
 // marker strings 
 const std::string ConstStrings::marker_titlepage = "#titlepage";
 const std::string ConstStrings::marker_img = "#img";
@@ -133,6 +135,8 @@ void ConstStrings::PrintErrorMessage(int code)
 }
 
 
+
+
 ConstStrings::ConstStrings() {
     flag_ital = false;
     flag_table_mode = false;
@@ -150,8 +154,12 @@ ConstStrings::ConstStrings() {
     document_author = "";
     
     table_counter = 0;
-
+    
+    
 }
+
+
+
 
 
 ConstStrings::ConstStrings(const ConstStrings& orig) {

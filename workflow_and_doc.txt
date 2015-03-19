@@ -16,13 +16,11 @@
 ------------------------
 
     Bugs to fix:
-    - rework itemization algorithm, ignore n * '\t' of first item
-    - rework static_functions_ui.cpp
+
 ------------------------
 
     Work packages: 
 
-    - table: automated column writer
     - gotex command buttons
         - fat
         - ital
@@ -32,7 +30,7 @@
         - center
 ------------------------
 
-    Hard tasks: 
+    Not so easy tasks: 
 
     - reanalyze fork algorithm
     - GUI - Menu - mirate documentclass
@@ -42,6 +40,9 @@
 
     Done:
 
+    - table: automated column writer
+    - rework static_functions_ui.cpp
+    - error opening tex file instead of pdf
     - change window title to document-name
     - deleting tempfiles error
     - character replacements work in itemization

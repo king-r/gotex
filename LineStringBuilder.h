@@ -20,6 +20,7 @@ public:
     std::string handleString(std::string in, std::ofstream &output ,int &list_deep, ConstStrings *error);
     // replacement function, correction of generated tex file
     std::string correctTexString(std::string in, ConstStrings *error);
+    std::string generateColumnsFromInt(int columns_quantity);
     // string handler algorithms
     bool checkForTableMode(std::string &in, std::ofstream &output, ConstStrings *error);
     void checkForSimpleReplacements(std::string &in);

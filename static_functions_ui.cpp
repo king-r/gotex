@@ -17,11 +17,11 @@
 
 
 
-//////////////////////
+////////////////////////////////////////////////////
 // All functions in this file:
-//////////////////////
+////////////////////////////////////////////////////
 
-// not working yet
+// not working yet - autoscroll
 static void scrollToCursor(GtkWidget *sender, GtkTextBuffer *buffer);
 //////////////////////
 // file operation functions
@@ -58,9 +58,9 @@ static std::string getFilenameFromFullPath(std::string full_path);
 
 
 
-//////////////////////
+////////////////////////////////////////////////////
 // function implementations
-//////////////////////
+////////////////////////////////////////////////////
 
 // not working yet
 static void scrollToCursor(GtkWidget *sender, GtkTextBuffer *buffer)
@@ -311,6 +311,10 @@ static void goTex(GtkWidget *sender, GtkTextView *textview)
         {
             filename = deleteGeneratedBeamerFiles(filename, error);
         }
+    }
+    else
+    {
+        filename.replace(filename.find(error->file_tex_ending), error->file_tex_ending.size(), error->file_pdf_ending);
     }
     
     //if pdf is present, open it

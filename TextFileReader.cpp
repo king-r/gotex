@@ -107,6 +107,9 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
 // inserts missing data and creates final tex file
 void TextFileReader::CorrectTexFile(ConstStrings *error)
 {
+    // reset table_counter
+    error->table_counter = 0;
+    
     // get filename
     std::string filename = error->opened_file;
     
@@ -140,6 +143,9 @@ void TextFileReader::CorrectTexFile(ConstStrings *error)
 
     // close tex file
     texfile.close();
+    
+    // reset table counter
+    error->table_counter = 0;
 }
 
 
