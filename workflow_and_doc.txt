@@ -5,14 +5,14 @@
 
     Considerations:
     
-    - split page into left & right ( & optional middle)
+    - split textpage into left & right ( & optional middle)
     - replace %, Comments?
     - Img no absolut paths?
-    - LineStringBuilder::HandleStrings organize
     - Format Buttons
     - auto completion
-    - error message log
     - table with double \hline?
+    - key-bindings
+    - documentclass as command?
 ------------------------
 
     Bugs to fix:
@@ -21,25 +21,31 @@
 
     Work packages: 
 
+    - error message log
     - gotex command buttons
-        - fat
-        - ital
-        - image
-        - itemization
-        - table
-        - center
+        - section -img & -impl
+        - subsection -img & -impl
+        - fat -img & -impl
+        - ital -img & -impl
+        - image -img
+        - itemization -img
+        - table -img
+    - command buttons
+        - buttons which need whole line take whole line
+    - migrate static_functions.cpp into separate classes
 ------------------------
 
     Not so easy tasks: 
 
-    - reanalyze fork algorithm
+    - rework fork algorithm
     - GUI - Menu - mirate documentclass
     - scroll while writing
-    - make images work in tables
+
 ------------------------
 
     Done:
 
+    - LineStringBuilder::HandleStrings organize
     - table: automated column writer
     - rework static_functions_ui.cpp
     - error opening tex file instead of pdf
@@ -80,53 +86,55 @@
 
 Document only:
 
-#section Kapitel                start a new section
+#section Kapitel                start a new section         takes whole line
 
-#subsection Subkapitel          start a new subsection
+#subsection Subkapitel          start a new subsection      takes whole line
 
-#newpage
+#newpage                                                    takes whole line
 
-#newline
+#newline                                                    takes whole line
 ----------
 
 Beamer only:
 
-#title                          write frame title
+#title                          write frame title           takes whole line
 
-#subtitle                       write frame subtitle
+#subtitle                       write frame subtitle        takes whole line
 
-#pause                          set page clone entry
+#pause                          set page clone entry        takes whole line
 
-#frame / frame#                 start / end a slide page
+#frame / frame#                 start / end a slide page    takes whole line
 
 ----------
 
 No specific documentclass:
 
-#doctitle                       sets the documents title
+#doctitle                       sets the documents title    takes whole line
 
-#author                         set the documents author
+#author                         set the documents author    takes whole line
 
 #fat text fat#                  write text fat
 
 #ital text ital#                write text italic
                                                 _________
-#table <columns>                Create a Table |lala|hihi|, <columns> must be 2
-    lala|hihi
+#table <columns>                Create a Table |lala|hihi|, takes whole line
+    lala|hihi                   <columns> must be 2
 table#
 
 #center text center#
 
-- Bla                           Itemisation
+- Bla                           Itemisation                 takes whole line
     - Blabla                
 
-#titlepage                      creates a title/titlepage (article/report)
+#titlepage                      creates a title/titlepage   takes whole line
+                                (article/report)
 
-#newline                        new line
+#newline                        new line                    takes whole line
 
 #todo text todo#                creates a todo annotation
 
-#img small bildname             include image, default: medium
+                                include image,              takes whole line
+#img small bildname             default: medium 
 #img medium bildname
 #img bildname
 #img big bildname

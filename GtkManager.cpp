@@ -53,7 +53,9 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     g_object_set_data(G_OBJECT(buffer), "window", window);
     g_object_set_data(G_OBJECT(buffer), "error", error);
     g_object_set_data(G_OBJECT(buffer), "textview", textview);
-    g_signal_connect(G_OBJECT(buffer), "changed", G_CALLBACK(scrollToCursor), (gpointer) buffer);
+    //g_signal_connect(G_OBJECT(textview), "move-cursor", G_CALLBACK(scrollToCursorNow), (gpointer) buffer); // wrong signal used !!
+    
+    
     
     // documentclass selector
     GtkComboBoxText *document_selector_combotext = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "documentclass_comboboxtext"));
@@ -129,7 +131,25 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     GtkButton *go_tex_button = GTK_BUTTON(gtk_builder_get_object(builder, "go_tex_button"));
     g_signal_connect(G_OBJECT(go_tex_button), "clicked", G_CALLBACK(goTex), (gpointer) textview);
    
+    /////////////////
+    //sidebar buttons
     
+    // Header 1 Button
+    GtkButton *header1_button = GTK_BUTTON(gtk_builder_get_object(builder, "header1_button"));
+    g_signal_connect(G_OBJECT(header1_button), "clicked", G_CALLBACK(insertNewSection), (gpointer) buffer);
+    
+    // Header 2 Button
+    GtkButton *header2_button = GTK_BUTTON(gtk_builder_get_object(builder, "header2_button"));
+    g_signal_connect(G_OBJECT(header2_button), "clicked", G_CALLBACK(insertNewSubsection), (gpointer) buffer);
+    
+    // Fat Button
+    GtkButton *fat_button = GTK_BUTTON(gtk_builder_get_object(builder, "fat_button"));
+    g_signal_connect(G_OBJECT(fat_button), "clicked", G_CALLBACK(insertFatTags), (gpointer) buffer);
+    
+    // Ital Button
+    GtkButton *ital_button = GTK_BUTTON(gtk_builder_get_object(builder, "ital_button"));
+    g_signal_connect(G_OBJECT(ital_button), "clicked", G_CALLBACK(insertItalTags), (gpointer) buffer);
+
     ///////////////////////////
     // finalize gtk
     g_object_unref(G_OBJECT(builder));

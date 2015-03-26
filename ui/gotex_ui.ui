@@ -2,6 +2,22 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
+  <object class="GtkImage" id="fat_butto">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">fat.png</property>
+  </object>
+  <object class="GtkImage" id="h1_button">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">header1.png</property>
+  </object>
+  <object class="GtkImage" id="h2_button">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">header2.png</property>
+    <property name="icon_size">0</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -17,13 +33,32 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-missing-image</property>
   </object>
+  <object class="GtkImage" id="image_butto">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">image.png</property>
+  </object>
+  <object class="GtkImage" id="ital_img">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">ital.png</property>
+  </object>
+  <object class="GtkImage" id="list_butto">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">list.png</property>
+  </object>
+  <object class="GtkImage" id="table_butto">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">table.png</property>
+  </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
     <property name="margin_top">3</property>
     <property name="default_width">800</property>
     <property name="default_height">800</property>
     <property name="icon">icon.png</property>
-    <property name="type_hint">menu</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -477,6 +512,7 @@
                         <property name="resize_mode">immediate</property>
                         <property name="pixels_above_lines">15</property>
                         <property name="left_margin">15</property>
+                        <property name="populate_all">True</property>
                       </object>
                     </child>
                   </object>
@@ -484,6 +520,118 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkButton" id="header1_button">
+                    <property name="related_action"/>
+                    <property name="name">header1_button</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image">h1_button</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="header2_button">
+                    <property name="name">header2_button</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image">h2_button</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="fat_button">
+                    <property name="name">fat_button</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image">fat_butto</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="ital_button">
+                    <property name="name">ital_button</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image">ital_img</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="image_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image">image_butto</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="table_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image">table_butto</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="list_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="margin_bottom">1</property>
+                    <property name="image">list_butto</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">6</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
                 <property name="top_attach">0</property>
               </packing>
             </child>
@@ -496,8 +644,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkRadioAction" id="mode_action">
-    <property name="draw_as_radio">True</property>
   </object>
 </interface>

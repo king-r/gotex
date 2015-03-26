@@ -10,7 +10,8 @@
 #include <string>
 #include <fstream>
 #include <stdlib.h> 
-#include <iostream>//delete TODO
+#include <iostream>
+#include <gtk-2.0/gtk/gtktextbuffer.h>//delete TODO
 
 #include "ConstStrings.h"
 #include "TextFileReader.h"
@@ -22,7 +23,7 @@
 ////////////////////////////////////////////////////
 
 // not working yet - autoscroll
-static void scrollToCursor(GtkWidget *sender, GtkTextBuffer *buffer);
+static void scrollToCursorNow(GtkWidget *sender, GtkTextBuffer *buffer);
 //////////////////////
 // file operation functions
 // 
@@ -52,10 +53,17 @@ static void setKeepAux(GtkToggleButton *sender, ConstStrings *error);
 //////////////////////
 // documentclass selector
 static void documentSelectionChanged (GtkComboBoxText *sender, GtkTextBuffer *buffer);
+//////////////////////
+// sidebar buttons
+static void insertNewSection (GtkButton *sender, GtkTextBuffer *buffer);
+static void insertNewSubsection (GtkButton *sender, GtkTextBuffer *buffer);
+static void insertFat(GtkTextIter &iter, GtkTextBuffer *buffer);
+// sidebar button helpers
+static void getIterAtCursor(GtkTextIter &iter, GtkTextBuffer *buffer);
+static void surroundTextSelection(GtkTextBuffer *buffer, std::string text_left, std::string text_right);
 // general helpers
 static std::string getPathFromFullPath(std::string full_path);
 static std::string getFilenameFromFullPath(std::string full_path);
-
 
 
 ////////////////////////////////////////////////////
@@ -63,9 +71,9 @@ static std::string getFilenameFromFullPath(std::string full_path);
 ////////////////////////////////////////////////////
 
 // not working yet
-static void scrollToCursor(GtkWidget *sender, GtkTextBuffer *buffer)
+static void scrollToCursorNow(GtkWidget *sender, GtkTextBuffer *buffer)
 {
-    // extract elements
+// extract elements
 //    GtkTextView *textview = (GtkTextView*) g_object_get_data(G_OBJECT(buffer), "textview");
 //    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(buffer), "error");
 //    
@@ -78,7 +86,16 @@ static void scrollToCursor(GtkWidget *sender, GtkTextBuffer *buffer)
 //    GtkScrolledWindow *scrolled_window = (GtkScrolledWindow*) g_object_get_data(G_OBJECT(buffer), "scrollable");
 //    GtkAdjustment *adjust = gtk_scrolled_window_get_hadjustment (scrolled_window);
 //    
+//    
+      GtkTextView *text_view = (GtkTextView*) g_object_get_data( G_OBJECT(buffer), "textview");
+      bool la = gtk_text_view_place_cursor_onscreen (text_view);
+
+    
 //    gtk_adjustment_set_value(adjust, gtk_adjustment_get_page_size (adjust));
+//    GtkTextIter iter, iter_end;
+//    getIterAtCursor(iter, buffer);
+//
+//    gtk_text_view_scroll_to_iter(text_view, &iter, 0.2, FALSE, 0, 0);
 }
 
 
@@ -502,5 +519,102 @@ static void documentSelectionChanged (GtkComboBoxText *sender, GtkTextBuffer *bu
         error->PrintErrorMessage(6);
     }
 }
+
+
+
+//sidebar button handlers
+static void insertNewSection (GtkButton *sender, GtkTextBuffer *buffer)
+{
+    // get cursor position
+    GtkTextIter iter;
+    getIterAtCursor(iter, buffer);
+    // set iter to start position of line
+    gint row = gtk_text_iter_get_line(&iter);
+    gtk_text_iter_set_line(&iter, row);
+    // insert "#section" at linebeginning
+    gtk_text_buffer_insert(buffer, &iter, (ConstStrings::marker_section + " ").c_str() ,  ConstStrings::marker_section.size() + 1);
+    
+    // focus textview
+    GtkTextView *textview = (GtkTextView*) g_object_get_data(G_OBJECT(buffer), "textview");
+    gtk_widget_grab_focus(GTK_WIDGET(textview));
+}
+
+
+static void insertNewSubsection(GtkButton *sender, GtkTextBuffer *buffer)
+{
+    // get cursor position
+    GtkTextIter iter;
+    getIterAtCursor(iter, buffer);
+    // set iter to start position of line
+    gint row = gtk_text_iter_get_line(&iter);
+    gtk_text_iter_set_line(&iter, row);
+    // insert "#subsection" at linebeginning
+    gtk_text_buffer_insert(buffer, &iter, (ConstStrings::marker_subsection + " ").c_str() ,  ConstStrings::marker_subsection.size() + 1);
+    
+    // focus textview
+    GtkTextView *textview = (GtkTextView*) g_object_get_data(G_OBJECT(buffer), "textview");
+    gtk_widget_grab_focus(GTK_WIDGET(textview));
+    
+}
+
+
+static void insertFatTags(GtkButton *sender, GtkTextBuffer *buffer)
+{
+    surroundTextSelection(buffer, ConstStrings::marker_fat, ConstStrings::marker_fat_end);
+}
+
+
+static void insertItalTags(GtkButton *sender, GtkTextBuffer *buffer)
+{
+    surroundTextSelection(buffer, ConstStrings::marker_ital, ConstStrings::marker_ital_end);
+}
+
+
+static void surroundTextSelection(GtkTextBuffer *buffer, std::string text_left, std::string text_right)
+{
+    if(gtk_text_buffer_get_has_selection(buffer))
+    {
+        // set marker strings
+        std::string marker_start = " " + text_left + " ";
+        std::string marker_end = " " + text_right + " ";
+        
+        // get selection bounds
+        GtkTextIter iter_start, iter_end;
+        gtk_text_buffer_get_selection_bounds(buffer, &iter_start, &iter_end);
+        
+        // insert text
+        gtk_text_buffer_insert(buffer, &iter_start, marker_start.c_str(), -1);
+
+        // insert end-marker ( and update selection bound iterators )
+        gtk_text_buffer_get_selection_bounds(buffer, &iter_start, &iter_end);
+        gtk_text_buffer_insert(buffer, &iter_end, marker_end.c_str(), -1);
+        
+        // place cursor after end-marker
+        gtk_text_buffer_get_selection_bounds(buffer, &iter_start, &iter_end);
+        gtk_text_buffer_place_cursor(buffer, &iter_end);
+    }
+    else
+    {
+        //error message - nothing selected
+        
+    }
+    
+    // focus textview
+    GtkTextView *textview = (GtkTextView*) g_object_get_data(G_OBJECT(buffer), "textview");
+    gtk_widget_grab_focus(GTK_WIDGET(textview));
+
+}
+
+
+
+static void getIterAtCursor(GtkTextIter &iter, GtkTextBuffer *buffer)
+{
+    GtkTextMark *mark = gtk_text_buffer_get_insert (buffer);
+            gtk_text_buffer_get_iter_at_mark(buffer,&iter, mark);
+
+}
+
+
+
 
 #endif /* STATIC_FUNC_CPP */

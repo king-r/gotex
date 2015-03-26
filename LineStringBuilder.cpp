@@ -63,6 +63,13 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
     checkForSimpleReplacements(in);
 
     ////////////////////////////////
+    // image specific algorithm
+    if( (found_pos = in.find(ConstStrings::marker_img)) != std::string::npos )
+    {
+        checkImage(in, found_pos, output, error);
+    }
+    
+    ////////////////////////////////
     // table specific algorithms
     //
     // check if table mode is on
@@ -83,12 +90,7 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
         stop_itemization = false;
     }
 
-    ////////////////////////////////
-    // image specific algorithm
-    if( (found_pos = in.find(ConstStrings::marker_img)) != std::string::npos )
-    {
-        checkImage(in, found_pos, output, error);
-    }
+
     
     ////////////////////////////////
     // non-combinable command algorithms
@@ -197,6 +199,7 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
         // characters usable in tables
         replaceIfFoundWithoutCharacter(in, ConstStrings::marker_hashtag, ConstStrings::string_hashtag, '\\');
 
+        
         writeToFile(in, output);
         if(error->flag_table_mode == false)
         {
