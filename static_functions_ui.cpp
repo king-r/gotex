@@ -2,7 +2,7 @@
 #define	STATIC_FUNC_CPP
 
 //////////////////////
-// Callback functions of gtk
+// Gtk callback function file
 //////////////////////
 
 // includes
@@ -25,7 +25,7 @@
 ////////////////////////////////////////////////////
 
 // not working yet - autoscroll
-static void scrollToCursorNow(GtkWidget *sender, GtkTextBuffer *buffer);
+static void onKeyPress(GtkWidget *sender, GdkEventKey *event, GtkTextBuffer *buffer);
 //////////////////////
 // file operation functions
 // 
@@ -60,10 +60,11 @@ static void documentSelectionChanged (GtkComboBoxText *sender, GtkTextBuffer *bu
 static void insertNewSection (GtkButton *sender, GtkTextBuffer *buffer);
 static void insertNewSubsection (GtkButton *sender, GtkTextBuffer *buffer);
 static void insertFat(GtkTextIter &iter, GtkTextBuffer *buffer);
+static void insertTable(GtkButton *sender, GtkTextBuffer *buffer);
+static void insertItemization(GtkButton *sender, GtkTextBuffer *buffer);
 // sidebar button helpers
 static void getIterAtCursor(GtkTextIter &iter, GtkTextBuffer *buffer);
 static void surroundTextSelection(GtkTextBuffer *buffer, std::string text_left, std::string text_right);
-static void insertTable(GtkButton *sender, GtkTextBuffer *buffer);
 // general helpers
 static std::string getPathFromFullPath(std::string full_path);
 static std::string getFilenameFromFullPath(std::string full_path);
@@ -606,11 +607,128 @@ static void insertTable(GtkButton *sender, GtkTextBuffer *buffer)
 // not working yet
 static void insertItemization(GtkButton *sender, GtkTextBuffer *buffer)
 {
+    //////////////////////
+    /* read needed data */
+    
     // get cursor position
-    GtkTextIter iter_cursor, iter_line_begin;
+    GtkTextIter iter_cursor, iter_cursor_line_begin;
     getIterAtCursor(iter_cursor, buffer);
+    // get line of cursor
+    int cursor_line = gtk_text_iter_get_line(&iter_cursor);
+    gtk_text_buffer_get_iter_at_line(buffer, &iter_cursor_line_begin, cursor_line);
+    // other variables
+    bool itemization_used_repeatedly = false;
+    bool itemization_used_in_cursor_line = false;
+    int spaces_line_before = 0;
+    int spaces_line_cursor = 0;
     
+    // check line before cursor
+    if(cursor_line > 0)
+    {
+        GtkTextIter iter_before_cursor;
+        gtk_text_buffer_get_iter_at_line(buffer, &iter_before_cursor, cursor_line - 1);
+        // count spaces at begin of line
+        for(; ((gtk_text_iter_get_char(&iter_before_cursor) == ' ')&&(spaces_line_before < gtk_text_iter_get_chars_in_line(&iter_before_cursor))); spaces_line_before++)
+        {
+            gtk_text_iter_forward_char(&iter_before_cursor);
+        }
+        if(gtk_text_iter_get_char(&iter_before_cursor) == '-')
+        {
+            // itemization is used in line before
+            itemization_used_repeatedly = true;
+        }
+    }
     
+
+    // check cursor line
+    gtk_text_buffer_get_iter_at_line(buffer, &iter_cursor_line_begin, cursor_line);
+    
+    // count space characters in line
+    for (; (gtk_text_iter_get_char(&iter_cursor_line_begin) == ' ')&&(spaces_line_cursor < gtk_text_iter_get_chars_in_line(&iter_cursor_line_begin)); spaces_line_cursor++) 
+    {
+        gtk_text_iter_forward_char(&iter_cursor_line_begin);
+    }
+
+    if (gtk_text_iter_get_char(&iter_cursor_line_begin) == '-') 
+    {
+        // itemization in cursor line present
+        itemization_used_in_cursor_line = true;
+    }
+
+        
+    ///////////////////
+    /* evaluate data */
+    GtkTextIter iter_insert;
+    gtk_text_buffer_get_iter_at_line(buffer, &iter_insert, cursor_line);
+
+    gtk_text_buffer_place_cursor(buffer, &iter_insert);
+    
+    // case: line == 0 or itemization is not used repeatedly and itemization not used in cursor line
+    // --> insert '-', no tabulator possible
+    if(((cursor_line == 0)||(!itemization_used_repeatedly))&&!itemization_used_in_cursor_line)
+    {
+        std::string minus = "- ";
+        gtk_text_buffer_insert_at_cursor(buffer, minus.c_str(), 2);
+    }
+    // case: itemization is used repeatedly and itemization is not used in cursor line
+    // --> insert same tabulator as before, then insert '-'
+    else if(itemization_used_repeatedly && !itemization_used_in_cursor_line)
+    {
+        for(int i = 0; i < spaces_line_before; i++)
+        {
+            std::string space = " ";
+            gtk_text_buffer_insert_at_cursor(buffer, space.c_str(), 1);
+        }
+        std::string minus = "- ";
+        gtk_text_buffer_insert_at_cursor(buffer, minus.c_str(), 2);
+    }
+    // case: itemization is used repeatedly and itemization is used in cursor line
+    // --> insert additional tabulator
+    else if(itemization_used_repeatedly && itemization_used_in_cursor_line)
+    {
+        if(spaces_line_before >= spaces_line_cursor)
+        {
+            // insert tabulator
+            gtk_text_buffer_insert_at_cursor(buffer, ConstStrings::string_tabulator.c_str(), ConstStrings::string_tabulator.size());
+        }
+        else if(spaces_line_before < spaces_line_cursor)
+        {
+            // delete whole tabulator
+            GtkTextIter iter_after_tab = iter_insert;
+            for(int i = 0; i < spaces_line_cursor; i++)
+            {
+                gtk_text_iter_forward_char(&iter_after_tab);
+            }
+            gtk_text_buffer_delete(buffer, &iter_insert, &iter_after_tab);
+            
+        }
+        
+    }
+    // case: itemization is not used repeatedly and itemization is used in cursor line
+    // --> 
+    else if(!itemization_used_repeatedly && itemization_used_in_cursor_line)
+    {
+        // do nothing
+    }
+
+    ///////////////////
+    
+    // reset cursor
+    GtkTextIter resetpos;
+    gtk_text_buffer_get_iter_at_line(buffer, &resetpos, cursor_line);
+    while(gtk_text_iter_get_char(&resetpos) != '-')
+    {
+        gtk_text_iter_forward_char(&resetpos);
+    }
+    gtk_text_iter_forward_char(&resetpos);
+    gtk_text_iter_forward_char(&resetpos);
+    gtk_text_buffer_place_cursor(buffer, &resetpos);
+    
+        
+    // focus textview
+    GtkTextView *textview = (GtkTextView*) g_object_get_data(G_OBJECT(buffer), "textview");
+    gtk_widget_grab_focus(GTK_WIDGET(textview));
+
 }
 
 

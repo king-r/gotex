@@ -17,6 +17,7 @@
 ------------------------
 
     Bugs to fix:
+    - renew table and itemization button icon
 
 ------------------------
 
@@ -24,13 +25,13 @@
 
     - error message log
     - gotex command buttons
-        - section -img & -impl
-        - subsection -img & -impl
-        - fat -img & -impl
-        - ital -img & -impl
-        - image -img & -impl
-        - itemization -img
-        - table -img & -impl
+        - section
+        - subsection
+        - fat
+        - ital
+        - image
+        - itemization
+        - table
     - command buttons
         - buttons which need whole line take whole line
         - line with offset and no content
