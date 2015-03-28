@@ -11,7 +11,7 @@
 #### Compiler and tool definitions shared by all build targets #####
 CCC = g++
 CXX = g++
-BASICOPTS = -g 
+BASICOPTS = -g
 CCFLAGS = $(BASICOPTS) `pkg-config --cflags --libs gtk+-3.0`
 CXXFLAGS = $(BASICOPTS) `pkg-config --cflags --libs gtk+-3.0`
 CCADMIN = 

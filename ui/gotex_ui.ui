@@ -39,12 +39,13 @@
     <property name="can_focus">False</property>
     <property name="pixbuf">image.png</property>
   </object>
-  <object class="GtkImage" id="ital_img">
+  <object class="GtkImage" id="ital_butto">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">ital.png</property>
   </object>
   <object class="GtkImage" id="list_butto">
+    <property name="name">list_button</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">list.png</property>
@@ -580,7 +581,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="image">ital_img</property>
+                    <property name="image">ital_butto</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

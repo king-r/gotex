@@ -454,11 +454,7 @@ std::string LineStringBuilder::checkImage(std::string &in, size_t found_pos, std
 ////////////////////////////////
 // table
 std::string LineStringBuilder::checkTable(std::string& in, std::ofstream& output, ConstStrings* error)
-{    
-    size_t pos_x = 0, found_pos = 0;
-    found_pos = in.find(error->marker_table);
-    pos_x = in.find(" ", found_pos);
-
+{
     std::string command_begin = error->string_table + 
             error->marker_correction_table_columns + error->string_close_bracket;
 

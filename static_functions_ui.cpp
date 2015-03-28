@@ -568,23 +568,20 @@ static void insertImage(GtkButton *sender, GtkTextBuffer *buffer)
 }
 
 
-// not working yet
+// missing: surround table
 static void insertTable(GtkButton *sender, GtkTextBuffer *buffer)
 {
     // get cursor position
     GtkTextIter iter_cursor, iter_insert, iter_line_begin;
     getIterAtCursor(iter_cursor, buffer);
     
+    // get iter at cursor line begin and insert newline if needed
     int line_cursor_old = gtk_text_iter_get_line(&iter_cursor);
     gtk_text_buffer_get_iter_at_line(buffer, &iter_line_begin, line_cursor_old);
-    //gtk_text_buffer_place_cursor(buffer, &iter_insert);
-    //gtk_text_buffer_get_end_iter(buffer, &iter_end);
     std::string newline = "\n";
     if(!gtk_text_iter_equal(&iter_cursor, &iter_line_begin))
     {
-        //gtk_text_buffer_get_end_iter(buffer, &iter_line_begin);
         gtk_text_buffer_insert_at_cursor(buffer, newline.c_str(), newline.size());
-        //gtk_text_iter_forward_to_end(&iter_insert);
     }
     
     // insert table markers
@@ -602,10 +599,20 @@ static void insertTable(GtkButton *sender, GtkTextBuffer *buffer)
     // focus textview
     GtkTextView *textview = (GtkTextView*) g_object_get_data(G_OBJECT(buffer), "textview");
     gtk_widget_grab_focus(GTK_WIDGET(textview));
+       
+}
+
+
+// not working yet
+static void insertItemization(GtkButton *sender, GtkTextBuffer *buffer)
+{
+    // get cursor position
+    GtkTextIter iter_cursor, iter_line_begin;
+    getIterAtCursor(iter_cursor, buffer);
     
-  
     
 }
+
 
 // helper functions
 static void surroundTextSelection(GtkTextBuffer *buffer, std::string text_left, std::string text_right)

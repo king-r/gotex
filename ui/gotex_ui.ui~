@@ -45,6 +45,7 @@
     <property name="pixbuf">ital.png</property>
   </object>
   <object class="GtkImage" id="list_butto">
+    <property name="name">list_button</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">list.png</property>
@@ -603,6 +604,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="table_button">
+                    <property name="name">table_button</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>

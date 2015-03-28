@@ -159,6 +159,10 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     GtkButton *table_button = GTK_BUTTON(gtk_builder_get_object(builder, "table_button"));
     g_signal_connect(G_OBJECT(table_button), "clicked", G_CALLBACK(insertTable), (gpointer) buffer);
     
+    // Itemization Button
+    GtkButton *list_button = GTK_BUTTON(gtk_builder_get_object(builder, "list_button"));
+    g_signal_connect(G_OBJECT(list_button), "clicked", G_CALLBACK(insertItemization), (gpointer) buffer);
+    
 
     ///////////////////////////
     // finalize gtk

@@ -33,6 +33,7 @@
         - table -img & -impl
     - command buttons
         - buttons which need whole line take whole line
+        - line with offset and no content
     - migrate static_functions.cpp into separate classes
 ------------------------
 
