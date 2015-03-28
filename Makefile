@@ -55,7 +55,7 @@ $(TARGETDIR_gotex)/GtkManager.o: $(TARGETDIR_gotex) GtkManager.cpp
 	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ GtkManager.cpp `pkg-config --cflags --libs gtk+-3.0`
 
 $(TARGETDIR_gotex)/static_functions_ui.o: $(TARGETDIR_gotex) static_functions_ui.cpp
-	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ static_functions_ui.cpp 
+	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ static_functions_ui.cpp
 
 $(TARGETDIR_gotex)/LineStringBuilder.o: $(TARGETDIR_gotex) LineStringBuilder.cpp
 	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ LineStringBuilder.cpp

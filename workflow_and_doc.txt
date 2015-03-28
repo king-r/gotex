@@ -5,7 +5,7 @@
 
     Considerations:
     
-    - split textpage into left & right ( & optional middle)
+    - split pdf-textpage into left & right ( & optional middle)
     - replace %, Comments?
     - Img no absolut paths?
     - Format Buttons
@@ -13,6 +13,7 @@
     - table with double \hline?
     - key-bindings
     - documentclass as command?
+    - images: paths or filenames (or both) ?
 ------------------------
 
     Bugs to fix:
@@ -27,9 +28,9 @@
         - subsection -img & -impl
         - fat -img & -impl
         - ital -img & -impl
-        - image -img
+        - image -img & -impl
         - itemization -img
-        - table -img
+        - table -img & -impl
     - command buttons
         - buttons which need whole line take whole line
     - migrate static_functions.cpp into separate classes

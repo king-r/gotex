@@ -53,7 +53,8 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     g_object_set_data(G_OBJECT(buffer), "window", window);
     g_object_set_data(G_OBJECT(buffer), "error", error);
     g_object_set_data(G_OBJECT(buffer), "textview", textview);
-    //g_signal_connect(G_OBJECT(textview), "move-cursor", G_CALLBACK(scrollToCursorNow), (gpointer) buffer); // wrong signal used !!
+    
+    //g_signal_connect(G_OBJECT(window), "key-press-event", G_CALLBACK(onKeyPress), (gpointer) buffer); 
     
     
     
@@ -149,6 +150,15 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     // Ital Button
     GtkButton *ital_button = GTK_BUTTON(gtk_builder_get_object(builder, "ital_button"));
     g_signal_connect(G_OBJECT(ital_button), "clicked", G_CALLBACK(insertItalTags), (gpointer) buffer);
+    
+    // Image Button
+    GtkButton *image_button = GTK_BUTTON(gtk_builder_get_object(builder, "image_button"));
+    g_signal_connect(G_OBJECT(image_button), "clicked", G_CALLBACK(insertImage), (gpointer) buffer);
+    
+    // Table Button
+    GtkButton *table_button = GTK_BUTTON(gtk_builder_get_object(builder, "table_button"));
+    g_signal_connect(G_OBJECT(table_button), "clicked", G_CALLBACK(insertTable), (gpointer) buffer);
+    
 
     ///////////////////////////
     // finalize gtk
