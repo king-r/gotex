@@ -157,6 +157,9 @@ static void openFile(GtkWidget *sender, GtkTextBuffer *buffer)
         gtk_text_buffer_set_modified (buffer, TRUE);
         
         g_free(content);
+        
+        // log opened file
+        error->PrintLogMessage(1, getFilenameFromFullPath(filen));
     }
     if(res == GTK_RESPONSE_CANCEL)
     {
@@ -195,6 +198,7 @@ static void saveFile(GtkTextView *textview, std::string filename)
     else
     {
         gtk_text_buffer_set_modified (buffer, FALSE);
+        error->PrintLogMessage(2, getFilenameFromFullPath(filename));
     }
     g_free(text);
     
@@ -779,6 +783,10 @@ static void getIterAtCursor(GtkTextIter &iter, GtkTextBuffer *buffer)
 }
 
 
-
+static void focusTextView(GtkTextView &log, GtkTextView *textview)
+{
+    // focus textview
+    gtk_widget_grab_focus(GTK_WIDGET(textview));
+}
 
 #endif /* STATIC_FUNC_CPP */

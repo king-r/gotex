@@ -19,13 +19,15 @@
 ------------------------
 
     Bugs to fix:
+
     - renew table and itemization button icon
+    - focus textview after click on log
 
 ------------------------
 
     Work packages: 
 
-    - error message log
+    - migrate error messages into error message log
     - migrate static_functions.cpp into separate classes
 
 ------------------------
@@ -40,6 +42,7 @@
 
     Done:
 
+    - error message log
     - gotex command buttons
         - buttons which need whole line take whole line
     - gotex command buttons

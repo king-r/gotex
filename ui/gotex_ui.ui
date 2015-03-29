@@ -18,21 +18,6 @@
     <property name="pixbuf">header2.png</property>
     <property name="icon_size">0</property>
   </object>
-  <object class="GtkImage" id="image2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
-  <object class="GtkImage" id="image4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
   <object class="GtkImage" id="image_butto">
     <property name="name">image_button</property>
     <property name="visible">True</property>
@@ -202,38 +187,6 @@
                   <object class="GtkMenu" id="menu3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem1">
-                        <property name="label">Article</property>
-                        <property name="name">menuentry_article</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="action_name">mode_action</property>
-                        <property name="image">image3</property>
-                        <property name="use_stock">False</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem2">
-                        <property name="label">Report</property>
-                        <property name="name">menuentry_report</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="action_name">mode_action</property>
-                        <property name="image">image2</property>
-                        <property name="use_stock">False</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem3">
-                        <property name="label">Beamer</property>
-                        <property name="name">menuentry_beamer</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="image">image4</property>
-                        <property name="use_stock">False</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>
@@ -643,6 +596,59 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">10</property>
+            <property name="margin_top">5</property>
+            <property name="label" translatable="yes">Log Output</property>
+            <attributes>
+              <attribute name="style" value="oblique"/>
+              <attribute name="weight" value="light"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow1">
+            <property name="height_request">150</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="margin_left">2</property>
+            <property name="margin_right">2</property>
+            <property name="margin_top">2</property>
+            <property name="margin_bottom">2</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkViewport" id="viewport2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkTextView" id="log_output">
+                    <property name="name">log_output</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="wrap_mode">word-char</property>
+                    <property name="cursor_visible">False</property>
+                    <property name="accepts_tab">False</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">7</property>
           </packing>
         </child>
       </object>

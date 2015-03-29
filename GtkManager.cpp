@@ -165,6 +165,13 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     
 
     ///////////////////////////
+    // Log Output
+    GtkWidget *log_output = GTK_WIDGET(gtk_builder_get_object(builder, "log_output"));
+    //g_signal_connect(G_OBJECT(log_output), "clicked", G_CALLBACK(focusTextView), (gpointer) textview);
+    GtkTextBuffer *log_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(log_output));
+    error->log_buffer = log_buffer;
+    
+    ///////////////////////////
     // finalize gtk
     g_object_unref(G_OBJECT(builder));
     gtk_widget_show(window);

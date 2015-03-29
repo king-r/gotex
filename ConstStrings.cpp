@@ -5,6 +5,7 @@
  * Created on 31. Januar 2015, 00:57
  */
 
+#include <gtk/gtk.h>
 #include <iostream> // to print error message
 #include <string>
 #include <stdlib.h>
@@ -120,6 +121,11 @@ const string ConstStrings::message_file_text_save = "Error saving Text-file.\n";
 const string ConstStrings::message_file_gui = "Error loading GUI-File\n";           // EC: 5
 const string ConstStrings::message_document_mode = "Error reading document class\n"; // EC: 6
 
+// Log Messages
+const string ConstStrings::log_message_type_info = "Info: ";
+
+const string ConstStrings::log_message_opened_file = "Opened file ";
+const string ConstStrings::log_message_saved_file = "Saved file ";
 
 void ConstStrings::PrintErrorMessage(int code)
 {
@@ -135,6 +141,22 @@ void ConstStrings::PrintErrorMessage(int code)
 }
 
 
+void ConstStrings::PrintLogMessage(int code, std::string insert)
+{
+    GtkTextIter iter_end;
+    gtk_text_buffer_get_end_iter(log_buffer, &iter_end);
+    
+    std::string message = "";
+    switch(code)
+    {
+        // opened file
+        case 1: message = log_message_type_info + log_message_opened_file + insert + "\n";
+        // saved file 
+        case 2: message = log_message_type_info + log_message_saved_file + insert + "\n";
+    }
+    
+    gtk_text_buffer_insert(log_buffer, &iter_end, message.c_str(), message.size());
+}
 
 
 ConstStrings::ConstStrings() {
@@ -155,6 +177,7 @@ ConstStrings::ConstStrings() {
     
     table_counter = 0;
     
+    log_buffer = NULL;
     
 }
 

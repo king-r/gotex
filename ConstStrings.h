@@ -8,6 +8,7 @@
 #ifndef CONSTSTRINGS_H
 #define	CONSTSTRINGS_H
 #include <vector>
+#include <gtk/gtk.h>
 
 typedef std::vector< std::vector<int> > tableoftables;
 
@@ -86,6 +87,10 @@ public:
     static const std::string message_file_text_save;        // EC: 4
     static const std::string message_file_gui;              // EC: 5
     static const std::string message_document_mode;         // EC: 6
+    // Log Message strings
+    static const std::string log_message_type_info;
+    static const std::string log_message_opened_file;           // LC: 1
+    static const std::string log_message_saved_file;            // LC: 2
     // Latex strings
     static const std::string string_titlepage;
     static const std::string string_img;
@@ -126,6 +131,7 @@ public:
     //////////////////////////////////////////
     // functions
     void PrintErrorMessage(int code);
+    void PrintLogMessage(int code, std::string insert);
     
     void setFileName(std::string in);
     //////////////////////////////////////////
@@ -169,6 +175,8 @@ public:
     tableoftables vector_of_tables;
     // active_table-1
     int table_counter;
+    
+    GtkTextBuffer *log_buffer;
 };
 
 #endif	/* CONSTSTRINGS_H */
