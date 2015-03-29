@@ -14,6 +14,8 @@
     - key-bindings
     - documentclass as command?
     - images: paths or filenames (or both) ?
+    - document config generator
+
 ------------------------
 
     Bugs to fix:
@@ -24,18 +26,8 @@
     Work packages: 
 
     - error message log
-    - gotex command buttons
-        - section
-        - subsection
-        - fat
-        - ital
-        - image
-        - itemization
-        - table
-    - command buttons
-        - buttons which need whole line take whole line
-        - line with offset and no content
     - migrate static_functions.cpp into separate classes
+
 ------------------------
 
     Not so easy tasks: 
@@ -48,6 +40,16 @@
 
     Done:
 
+    - gotex command buttons
+        - buttons which need whole line take whole line
+    - gotex command buttons
+        - section
+        - subsection
+        - fat
+        - ital
+        - image
+        - itemization
+        - table
     - LineStringBuilder::HandleStrings organize
     - table: automated column writer
     - rework static_functions_ui.cpp
@@ -136,9 +138,8 @@ table#
 
 #todo text todo#                creates a todo annotation
 
-                                include image,              takes whole line
-#img small bildname             default: medium 
-#img medium bildname
+#img small bildname             include image,              takes whole line
+#img medium bildname            default: medium 
 #img bildname
 #img big bildname
 

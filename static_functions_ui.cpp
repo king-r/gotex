@@ -556,8 +556,10 @@ static void insertItalTags(GtkButton *sender, GtkTextBuffer *buffer)
 static void insertImage(GtkButton *sender, GtkTextBuffer *buffer)
 {
     // get cursor position
-    GtkTextIter iter;
-    getIterAtCursor(iter, buffer);
+    GtkTextIter iter_cursor, iter;
+    getIterAtCursor(iter_cursor, buffer);
+    int line_number = gtk_text_iter_get_line(&iter_cursor);
+    gtk_text_buffer_get_iter_at_line(buffer, &iter, line_number);
     
     // insert image marker
     gtk_text_buffer_insert(buffer, &iter, (ConstStrings::marker_img + " ").c_str(), -1);
