@@ -89,8 +89,13 @@ public:
     static const std::string message_document_mode;         // EC: 6
     // Log Message strings
     static const std::string log_message_type_info;
+    static const std::string log_message_type_error;
     static const std::string log_message_opened_file;           // LC: 1
     static const std::string log_message_saved_file;            // LC: 2
+    static const std::string log_message_open_pdf_success;      // LC: 3
+    static const std::string log_message_open_pdf_failure;      // LC: 4
+    static const std::string log_message_not_need_save_file;    // LC: 5
+    
     // Latex strings
     static const std::string string_titlepage;
     static const std::string string_img;
@@ -148,6 +153,8 @@ public:
     // flags
     bool flag_ital;
     bool flag_table_mode;
+
+    bool error_appeared;
     
     // path to opened file
     std::string opened_file;

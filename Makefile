@@ -25,12 +25,16 @@ all: $(TARGETDIR_gotex)/gotex
 
 ## Target: gotex
 OBJS_gotex =  \
+	$(TARGETDIR_gotex)/FileOperator.o \
+	$(TARGETDIR_gotex)/BufferModificator.o \
+	$(TARGETDIR_gotex)/ProgramConfig.o \
 	$(TARGETDIR_gotex)/TextFileReader.o \
 	$(TARGETDIR_gotex)/ConstStrings.o \
 	$(TARGETDIR_gotex)/main.o \
 	$(TARGETDIR_gotex)/GtkManager.o \
 	$(TARGETDIR_gotex)/static_functions_ui.o \
-	$(TARGETDIR_gotex)/LineStringBuilder.o
+	$(TARGETDIR_gotex)/LineStringBuilder.o \
+	$(TARGETDIR_gotex)/GlobalHelperFunctions.o
 USERLIBS_gotex = $(SYSLIBS_gotex) 
 DEPLIBS_gotex =  
 LDLIBS_gotex = $(USERLIBS_gotex)
@@ -60,7 +64,17 @@ $(TARGETDIR_gotex)/static_functions_ui.o: $(TARGETDIR_gotex) static_functions_ui
 $(TARGETDIR_gotex)/LineStringBuilder.o: $(TARGETDIR_gotex) LineStringBuilder.cpp
 	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ LineStringBuilder.cpp
 
+$(TARGETDIR_gotex)/FileOperator.o: $(TARGETDIR_gotex) FileOperator.cpp
+	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ FileOperator.cpp
 
+$(TARGETDIR_gotex)/GlobalHelperFunctions.o: $(TARGETDIR_gotex) GlobalHelperFunctions.cpp
+	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ GlobalHelperFunctions.cpp
+
+$(TARGETDIR_gotex)/ProgramConfig.o: $(TARGETDIR_gotex) ProgramConfig.cpp
+	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ ProgramConfig.cpp
+
+$(TARGETDIR_gotex)/BufferModificator.o: $(TARGETDIR_gotex) BufferModificator.cpp
+	$(COMPILE.cc) $(CCFLAGS_gotex) $(CPPFLAGS_gotex) -o $@ BufferModificator.cpp
 
 #### Clean target deletes all generated files ####
 clean:

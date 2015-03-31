@@ -123,9 +123,14 @@ const string ConstStrings::message_document_mode = "Error reading document class
 
 // Log Messages
 const string ConstStrings::log_message_type_info = "Info: ";
+const string ConstStrings::log_message_type_error = "Error: ";
 
-const string ConstStrings::log_message_opened_file = "Opened file ";
-const string ConstStrings::log_message_saved_file = "Saved file ";
+const string ConstStrings::log_message_opened_file = "Opened file ";                // LC: 1
+const string ConstStrings::log_message_saved_file = "Saved file ";                  // LC: 2
+const string ConstStrings::log_message_open_pdf_success = "Successfully opened ";   // LC: 3
+const string ConstStrings::log_message_open_pdf_failure = "Failed to open Pdf View: ";// LC: 4
+const string ConstStrings::log_message_not_need_save_file = " didn't change, no need to save"; //LC: 5
+
 
 void ConstStrings::PrintErrorMessage(int code)
 {
@@ -149,11 +154,19 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
     std::string message = "";
     switch(code)
     {
-        // opened file
-        case 1: message = log_message_type_info + log_message_opened_file + insert + "\n";
-        // saved file 
-        case 2: message = log_message_type_info + log_message_saved_file + insert + "\n";
+        // opened a file
+        case 1: message = log_message_type_info + log_message_opened_file + insert; break;
+        // saved the current file 
+        case 2: message = log_message_type_info + log_message_saved_file + insert; break;
+        // open pdf file success
+        case 3: message = log_message_type_info + log_message_open_pdf_success + insert; break;
+        // open pdf file failure
+        case 4: message = log_message_type_error + log_message_open_pdf_failure + insert; break;
+        // no need to save file 
+        case 5: message = log_message_type_info + insert + log_message_not_need_save_file; break;
     }
+    
+    message.append("\n");
     
     gtk_text_buffer_insert(log_buffer, &iter_end, message.c_str(), message.size());
 }
@@ -179,6 +192,7 @@ ConstStrings::ConstStrings() {
     
     log_buffer = NULL;
     
+    error_appeared = false;
 }
 
 
