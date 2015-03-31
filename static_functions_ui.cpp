@@ -12,7 +12,6 @@
 #include <string>
 #include <stdlib.h> 
 #include <iostream>
-#include <gtk-2.0/gtk/gtktextbuffer.h>//delete TODO
 
 #include "ConstStrings.h"
 #include "TextFileReader.h"
@@ -66,7 +65,9 @@ static void insertItemization(GtkButton *sender, GtkTextBuffer *buffer);
 
 
 ////////////////////////////////////////////////////
+////////////////////////////////////////////////////
 // function implementations
+////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 
 // not working yet
@@ -87,7 +88,8 @@ static void newFile(GtkWidget *sender, GtkTextBuffer *buffer)
 // Save File handler- & helper-functions
 static void saveFileAs(GtkWidget *sender, GtkTextView *textview)
 {
-    FileOperator::saveFileAs(textview);
+    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(textview), "error");
+    FileOperator::saveFileAs(textview, error);
 }
 // Open File handlerfunction
 static void openFile(GtkWidget *sender, GtkTextBuffer *buffer)
@@ -97,17 +99,21 @@ static void openFile(GtkWidget *sender, GtkTextBuffer *buffer)
 // Check if Saving File is needed
 static void checkSaveFile(GtkWidget *sender, GtkTextView *textview)
 {
-    FileOperator::checkSaveFile(textview);
+    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(textview), "error");
+    FileOperator::checkSaveFile(textview, error);
 }
 // Create Tex file
 static void createTexFile(GtkWidget *sender, GtkTextView *textview)
 {
-    FileOperator::createTexFile(textview);
+    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(textview), "error");
+    FileOperator::createTexFile(textview, error);
 }
 // GoTex handler- & helper-functions
 static void goTex(GtkWidget *sender, GtkTextView *textview)
 {
-    FileOperator::goTex(textview);
+    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(textview), "error");
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer (textview);
+    FileOperator::goTex(textview, buffer, error);
 }
 
 
@@ -140,7 +146,8 @@ static void setKeepAux(GtkToggleButton *sender, ConstStrings *error)
 // documentclass combobox handler 
 static void documentSelectionChanged (GtkComboBoxText *sender, GtkTextBuffer *buffer)
 {
-    ProgramConfig::setDocumentClassConfig(sender, buffer);
+    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(buffer), "error");
+    ProgramConfig::setDocumentClassConfig(sender, buffer, error);
 }
 
 

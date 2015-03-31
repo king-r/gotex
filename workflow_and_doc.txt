@@ -28,7 +28,6 @@
     Work packages: 
 
     - migrate error messages into error message log
-    - clean new classes
 
 ------------------------
 
@@ -42,6 +41,7 @@
 
     Done:
 
+    - clean new classes
     - migrate static_functions.cpp into separate classes
         - new: FileOperator, ProgramConfig, BufferModificator, GlobalHelperFunctions
     - error message log
