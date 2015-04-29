@@ -24,6 +24,7 @@ public:
     std::string getPathFromFullPath(std::string full_path);
     void writeDocumentMode(std::string &file_line, ConstStrings *error);
     void writeToFile(std::string text, std::ofstream &file);
+    void checkForModesOn(ConstStrings *error);
     //////////////////////////////////////////
     // de- & constructors
     //////////////////////////////////////////    

@@ -8,26 +8,37 @@
     - split pdf-textpage into left & right ( & optional middle)
     - replace %, Comments?
     - Img no absolut paths?
-    - Format Buttons
     - auto completion
     - table with double \hline?
     - key-bindings
     - documentclass as command?
     - images: paths or filenames (or both) ?
     - document config generator
+    - make makros possible
+    - dictonary for special characters (e.g. greek letters)
 
 ------------------------
 
     Bugs to fix:
 
+    - #center - wrong error message (when 2x gotex without changing text)
+    - log ouput - always scroll to bottom
     - renew table and itemization button icon
     - focus textview after click on log
+    - problems with paths which include '&'
+    - minus (-) in math-mode - never itemisation!
+    - automated table-column recognition
 
 ------------------------
 
     Work packages: 
 
+    - displaymath mode
+    - clear log button
     - migrate error messages into error message log
+    - create info & error messages for tex creation / gotex
+        - create error messages - done
+        - insert line number
 
 ------------------------
 
@@ -41,6 +52,7 @@
 
     Done:
 
+    - #tex command
     - clean new classes
     - migrate static_functions.cpp into separate classes
         - new: FileOperator, ProgramConfig, BufferModificator, GlobalHelperFunctions
@@ -118,6 +130,8 @@ Beamer only:
 ----------
 
 No specific documentclass:
+
+#tex                            to produce pure latex code  takes whole line
 
 #doctitle                       sets the documents title    takes whole line
 

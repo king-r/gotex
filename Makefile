@@ -25,6 +25,7 @@ all: $(TARGETDIR_gotex)/gotex
 
 ## Target: gotex
 OBJS_gotex =  \
+	$(TARGETDIR_gotex)/LineStringBuilder.o \
 	$(TARGETDIR_gotex)/FileOperator.o \
 	$(TARGETDIR_gotex)/BufferModificator.o \
 	$(TARGETDIR_gotex)/ProgramConfig.o \
@@ -33,7 +34,6 @@ OBJS_gotex =  \
 	$(TARGETDIR_gotex)/main.o \
 	$(TARGETDIR_gotex)/GtkManager.o \
 	$(TARGETDIR_gotex)/static_functions_ui.o \
-	$(TARGETDIR_gotex)/LineStringBuilder.o \
 	$(TARGETDIR_gotex)/GlobalHelperFunctions.o
 USERLIBS_gotex = $(SYSLIBS_gotex) 
 DEPLIBS_gotex =  

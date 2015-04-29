@@ -82,11 +82,15 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
     // reading notes-file line by line
     std::string file_line;
     LineStringBuilder *worker = new LineStringBuilder();
+    // to count line
+    int count_line = 0;
     while (getline(notes_file , file_line))
     {
         // processing read line
-        std::string processed_line = worker->handleString(file_line, output, list_deep, error);
+        count_line++;
+        std::string processed_line = worker->handleString(file_line, output, count_line, list_deep, error);
     }
+    delete worker;
     
     //write missings \end{itemize}
     for(int x = list_deep; x != 0; x--)
@@ -99,8 +103,32 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
         writeToFile(begin + ConstStrings::string_end_itemize, output);
     }
     list_deep = 0;
+    
+    // check for modes still on
+    checkForModesOn(error);
 }
 
+
+void TextFileReader::checkForModesOn(ConstStrings* error)
+{
+    if(error->mode_center)
+        error->PrintLogMessage(6, "");
+    if(error->mode_fat)
+        error->PrintLogMessage(7, "");
+    if(error->mode_ital)
+        error->PrintLogMessage(8, "");
+    if(error->mode_frame)
+        error->PrintLogMessage(9, "");
+    if(error->mode_todo)
+        error->PrintLogMessage(10, "");
+    
+    // reset modes
+    error->mode_center = false;
+    error->mode_fat = false;
+    error->mode_ital = false;
+    error->mode_frame = false;
+    error->mode_todo = false;
+}
 
 
 ///////////////////

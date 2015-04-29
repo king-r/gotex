@@ -46,6 +46,7 @@ public:
     static const std::string marker_base_author;
     static const std::string marker_correction_table_columns;
     // user command marker
+    static const std::string marker_tex;
     static const std::string marker_titlepage;
     static const std::string marker_img;
     static const std::string marker_img_small;
@@ -90,11 +91,16 @@ public:
     // Log Message strings
     static const std::string log_message_type_info;
     static const std::string log_message_type_error;
-    static const std::string log_message_opened_file;           // LC: 1
-    static const std::string log_message_saved_file;            // LC: 2
-    static const std::string log_message_open_pdf_success;      // LC: 3
-    static const std::string log_message_open_pdf_failure;      // LC: 4
-    static const std::string log_message_not_need_save_file;    // LC: 5
+    static const std::string log_message_opened_file;           // LC:  1
+    static const std::string log_message_saved_file;            // LC:  2
+    static const std::string log_message_open_pdf_success;      // LC:  3
+    static const std::string log_message_open_pdf_failure;      // LC:  4
+    static const std::string log_message_not_need_save_file;    // LC:  5
+    static const std::string log_message_center_mode_on;        // LC:  6
+    static const std::string log_message_fat_mode_on;           // LC:  7
+    static const std::string log_message_ital_mode_on;          // LC:  8
+    static const std::string log_message_frame_mode_on;         // LC:  9
+    static const std::string log_message_todo_mode_on;          // LC: 10
     
     // Latex strings
     static const std::string string_titlepage;
@@ -183,7 +189,22 @@ public:
     // active_table-1
     int table_counter;
     
+    // log buffer of logmessage
     GtkTextBuffer *log_buffer;
+    
+    // tex conversion modes
+    bool mode_todo;
+    int todo_open_line;
+    int todo_deep;
+    
+    bool mode_fat;
+    int fat_open_line;
+    bool mode_ital;
+    int ital_open_line;
+    bool mode_center;
+    int center_open_line;
+    bool mode_frame;
+    int frame_open_line;
 };
 
 #endif	/* CONSTSTRINGS_H */

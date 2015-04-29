@@ -43,6 +43,7 @@ const std::string ConstStrings::marker_base_doctitle = "#DOCTITLE#";
 const std::string ConstStrings::marker_base_author = "#AUTHOR#";
 const std::string ConstStrings::marker_correction_table_columns = "#COLUMNS#";
 // marker strings 
+const std::string ConstStrings::marker_tex = "#tex";
 const std::string ConstStrings::marker_titlepage = "#titlepage";
 const std::string ConstStrings::marker_img = "#img";
 const std::string ConstStrings::marker_img_small = "#img small";
@@ -130,7 +131,11 @@ const string ConstStrings::log_message_saved_file = "Saved file ";              
 const string ConstStrings::log_message_open_pdf_success = "Successfully opened ";   // LC: 3
 const string ConstStrings::log_message_open_pdf_failure = "Failed to open Pdf View: ";// LC: 4
 const string ConstStrings::log_message_not_need_save_file = " didn't change, no need to save"; //LC: 5
-
+const string ConstStrings::log_message_center_mode_on = "#center was not closed (center# missing)"; //LC: 6
+const string ConstStrings::log_message_fat_mode_on = "#fat was not closed (fat# missing)"; //LC: 7
+const string ConstStrings::log_message_ital_mode_on = "#ital was not closed (ital# missing)"; //LC: 8
+const string ConstStrings::log_message_frame_mode_on = "#frame was not closed (frame# missing)"; //LC: 9
+const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (todo# missing)"; //LC: 10
 
 void ConstStrings::PrintErrorMessage(int code)
 {
@@ -164,6 +169,16 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 4: message = log_message_type_error + log_message_open_pdf_failure + insert; break;
         // no need to save file 
         case 5: message = log_message_type_info + insert + log_message_not_need_save_file; break;
+        // center mode still on
+        case 6: message = log_message_type_error + log_message_center_mode_on; break;
+        // fat mode still on
+        case 7: message = log_message_type_error + log_message_fat_mode_on; break;
+        // ital mode still on
+        case 8: message = log_message_type_error + log_message_ital_mode_on; break;
+        // frame mode still on
+        case 9: message = log_message_type_error + log_message_frame_mode_on; break;
+        // todo mode still on
+        case 10: message = log_message_type_error + log_message_todo_mode_on; break;
     }
     
     message.append("\n");
@@ -193,6 +208,20 @@ ConstStrings::ConstStrings() {
     log_buffer = NULL;
     
     error_appeared = false;
+    
+    // tex conversion modi
+    mode_todo = false;
+    todo_open_line = 0;
+    todo_deep = 0;
+    
+    mode_fat = false;
+    fat_open_line = 0;
+    mode_ital = false;
+    ital_open_line = 0;
+    mode_center = false;
+    center_open_line = 0;
+    mode_frame = false;
+    frame_open_line = 0;
 }
 
 

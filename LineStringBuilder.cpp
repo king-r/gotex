@@ -23,6 +23,7 @@
 // handles line from textfile 
 // return-val: line from file
 // includes the following commands:
+// - #tex
 // - #img
 // - #titlepage
 //
@@ -51,16 +52,26 @@
 // - &
 // - <
 // - >
-std::string LineStringBuilder::handleString(std::string in, std::ofstream &output ,int &list_deep, ConstStrings *error)
+std::string LineStringBuilder::handleString(std::string in, std::ofstream &output , int actual_line, int &list_deep, ConstStrings *error)
 {
     size_t found_pos = 0;
     bool stop_itemization = true;
     bool exit = false;
 
+
+    ////////////////////////////////
+    // #tex command
+    //
+    exit = checkForTexCommand(in, output, error);
+    if(exit == true)
+    {
+        return in;
+    }
+    
     ////////////////////////////////
     // simple replacements
     //
-    checkForSimpleReplacements(in);
+    checkForSimpleReplacements(in, error);
 
     ////////////////////////////////
     // image specific algorithm
@@ -86,20 +97,19 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
         {
             begin = error->string_tabulator;
         }
-        replaceIfFound(in, ConstStrings::marker_pause, begin + ConstStrings::string_pause);
+        replaceIfFound(in, ConstStrings::marker_pause, begin + ConstStrings::string_pause, NULL);
         stop_itemization = false;
     }
-
 
     
     ////////////////////////////////
     // non-combinable command algorithms
-    
-    // not working yet:
     exit = checkForNonCombinableCommands(in, output, list_deep, stop_itemization, error);    
     
     return in;
 }
+
+
 
 
 ////////////////////////////////
@@ -156,6 +166,23 @@ std::string LineStringBuilder::generateColumnsFromInt(int columns)
 ////////////////////////////////
 
 ////////////////////////////////
+// check for #tex command
+//   return: continue
+bool LineStringBuilder::checkForTexCommand(std::string& in, std::ofstream &output, ConstStrings *error) 
+{
+    size_t found_pos = 0;
+
+    if(found_pos = in.find(error->marker_tex) != std::string::npos)
+    {
+        in.erase(found_pos - 1, error->marker_tex.size() + 1);
+        writeToFile(in, output);
+        return true;
+    }     
+    return false;
+}
+
+
+////////////////////////////////
 // checks if table mode is on
 // writes "\hline"s and 
 // return: exit mode
@@ -177,7 +204,7 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
         {
             while((found_pos = in.find(error->marker_table_column)) != std::string::npos)
             {
-                in = replaceIfFound(in, ConstStrings::marker_table_column, ConstStrings::marker_and + " ");
+                in = replaceIfFound(in, ConstStrings::marker_table_column, ConstStrings::marker_and + " ", NULL);
             }
             
             // count the columns of the row 
@@ -191,8 +218,9 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
                 }
             }
             // save column quantity
+						i++;
             error->active_table.push_back(i);
-            
+            //std::cout << "saved columns: " << i << std::endl;
             in = error->string_tabulator + in + " " + error->string_newline;
         }
         
@@ -220,34 +248,34 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
 // - #center center#
 // - #frame frame#
 // - #newline
-void LineStringBuilder::checkForSimpleReplacements(std::string& in)
+void LineStringBuilder::checkForSimpleReplacements(std::string& in, ConstStrings *error)
 {
     // if "#titlepage" is found, replace with "\maketitle"
-    replaceIfFound(in, ConstStrings::marker_titlepage, ConstStrings::string_titlepage);
+    replaceIfFound(in, ConstStrings::marker_titlepage, ConstStrings::string_titlepage, NULL);
     // if "#todo" is found replace with "\\todo{"
-    replaceIfFound(in, ConstStrings::marker_todo, ConstStrings::string_todo);
+    replaceIfFound(in, ConstStrings::marker_todo, ConstStrings::string_todo, &error->mode_todo);
     // if "todo#" is found replace with "}"
-    replaceIfFound(in, ConstStrings::marker_todo_end, ConstStrings::string_close_bracket);
+    replaceIfFound(in, ConstStrings::marker_todo_end, ConstStrings::string_close_bracket, &error->mode_todo);
     // if "#fat" was found replace with "\\textbf{"
-    replaceIfFound(in, ConstStrings::marker_fat, ConstStrings::string_begin_textbf);
+    replaceIfFound(in, ConstStrings::marker_fat, ConstStrings::string_begin_textbf, &error->mode_fat);
     // if "fat#" was found replace with "}"
-    replaceIfFound(in, ConstStrings::marker_fat_end, ConstStrings::string_close_bracket, -1);
+    replaceIfFound(in, ConstStrings::marker_fat_end, ConstStrings::string_close_bracket, -1, &error->mode_fat);
     // if "ital#" was found replace with "}"
-    replaceIfFound(in, ConstStrings::marker_ital_end, ConstStrings::string_close_bracket, -1);
+    replaceIfFound(in, ConstStrings::marker_ital_end, ConstStrings::string_close_bracket, -1, &error->mode_ital);
     // if "#ital" was found replace with"\begin{textit}
-    replaceIfFound(in, ConstStrings::marker_ital, ConstStrings::string_begin_textit);
+    replaceIfFound(in, ConstStrings::marker_ital, ConstStrings::string_begin_textit, &error->mode_ital);
     // if "#newpage" was found replace with "\newpage"
-    replaceIfFound(in, ConstStrings::marker_newpage, ConstStrings::string_newpage);
+    replaceIfFound(in, ConstStrings::marker_newpage, ConstStrings::string_newpage, NULL);
     // if "#center" was found replace with "\begin{center}"
-    replaceIfFound(in, ConstStrings::marker_center, ConstStrings::string_center);
+    replaceIfFound(in, ConstStrings::marker_center, ConstStrings::string_center, &error->mode_center);
     // if "center#" was found replace with "\end{center}"
-    replaceIfFound(in, ConstStrings::marker_center_end, ConstStrings::string_center_end, -1);
+    replaceIfFound(in, ConstStrings::marker_center_end, ConstStrings::string_center_end, -1, &error->mode_center);
     // if "#frame" was found, replace with "\begin{frame}"
-    replaceIfFound(in, ConstStrings::marker_frame, ConstStrings::string_frame);
+    replaceIfFound(in, ConstStrings::marker_frame, ConstStrings::string_frame, &error->mode_frame);
     // if "frame#" was found, replace with "\end{frame}"
-    replaceIfFound(in, ConstStrings::marker_frame_end, ConstStrings::string_frame_end);
+    replaceIfFound(in, ConstStrings::marker_frame_end, ConstStrings::string_frame_end, &error->mode_frame);
     // if "#newline" was found, replace with "\\"
-    replaceIfFound(in, ConstStrings::marker_newline, ConstStrings::string_newline);        
+    replaceIfFound(in, ConstStrings::marker_newline, ConstStrings::string_newline, NULL);        
     
     return;
 }
@@ -283,14 +311,14 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
     // if "#title" is found
     else if( (found_pos = in.find(ConstStrings::marker_title)) != std::string::npos)
     {
-        replaceIfFound(in, ConstStrings::marker_title, ConstStrings::string_title);
+        replaceIfFound(in, ConstStrings::marker_title, ConstStrings::string_title, NULL);
         in += ConstStrings::string_close_bracket;
         writeToFile(in, output);
     }
     // if "#subtitle" is found
     else if( (found_pos = in.find(ConstStrings::marker_subtitle)) != std::string::npos)
     {
-        replaceIfFound(in, ConstStrings::marker_subtitle, ConstStrings::string_subtitle);
+        replaceIfFound(in, ConstStrings::marker_subtitle, ConstStrings::string_subtitle, NULL);
         in += ConstStrings::string_close_bracket;
         writeToFile(in, output);
     }
@@ -299,11 +327,11 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
     {
         if('*' == in.at(ConstStrings::marker_section.size()))
         {
-            replaceIfFound(in, ConstStrings::marker_section, ConstStrings::string_section_star);
+            replaceIfFound(in, ConstStrings::marker_section, ConstStrings::string_section_star, NULL);
         }
         else
         {
-            replaceIfFound(in, ConstStrings::marker_section, ConstStrings::string_section);
+            replaceIfFound(in, ConstStrings::marker_section, ConstStrings::string_section, NULL);
         }
         in += ConstStrings::string_close_bracket;
         writeToFile(in, output);        
@@ -313,11 +341,11 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
     {
         if('*' == in.at(ConstStrings::marker_subsection.size()))
         {
-            replaceIfFound(in, ConstStrings::marker_subsection, ConstStrings::string_subsection_star);
+            replaceIfFound(in, ConstStrings::marker_subsection, ConstStrings::string_subsection_star, NULL);
         }
         else
         {
-            replaceIfFound(in, ConstStrings::marker_subsection, ConstStrings::string_subsection);
+            replaceIfFound(in, ConstStrings::marker_subsection, ConstStrings::string_subsection, NULL);
         }
         in += ConstStrings::string_close_bracket;
         writeToFile(in, output);
@@ -376,7 +404,7 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
 void LineStringBuilder::checkForSimpleCharacterReplacements(std::string& in) 
 {
     // if "..." is found replace with " \\ldots"
-    replaceIfFound(in, ConstStrings::marker_ldots, " " + ConstStrings::string_ldots + " ");
+    replaceIfFound(in, ConstStrings::marker_ldots, " " + ConstStrings::string_ldots + " ", NULL);
     // if "#" was found replace with '\#'
     replaceIfFoundWithoutCharacter(in, ConstStrings::marker_hashtag, ConstStrings::string_hashtag, '\\');
     // if "&" was found replace with "\&"
@@ -411,21 +439,21 @@ std::string LineStringBuilder::checkImage(std::string &in, size_t found_pos, std
     std::string tex_string_sceme = ConstStrings::string_img + path;
     std::string tex_command_img_medium = tex_string_sceme;
     tex_command_img_medium.replace(tex_command_img_medium.find("<width>"), 7, "7");
-    replaceIfFound(in, ConstStrings::marker_img_medium, tex_command_img_medium);
+    replaceIfFound(in, ConstStrings::marker_img_medium, tex_command_img_medium, NULL);
     
     // if "#img small" is found
     std::string tex_command_img_small = tex_string_sceme;
     tex_command_img_small.replace(tex_command_img_small.find("<width>"), 7, "4");
     
-    replaceIfFound(in, ConstStrings::marker_img_small, tex_command_img_small);
+    replaceIfFound(in, ConstStrings::marker_img_small, tex_command_img_small, NULL);
     
     // if "#img big" is found
     std::string tex_command_img_big = tex_string_sceme;
     tex_command_img_big.replace(tex_command_img_big.find("<width>"), 7, "10");
-    replaceIfFound(in, ConstStrings::marker_img_big, tex_command_img_big);
+    replaceIfFound(in, ConstStrings::marker_img_big, tex_command_img_big, NULL);
     
     // if "#img" is found
-    replaceIfFound(in, ConstStrings::marker_img, tex_command_img_medium);
+    replaceIfFound(in, ConstStrings::marker_img, tex_command_img_medium, NULL);
     
     // set close bracket and end center
     found_pos = in.find(" ", found_pos);
@@ -465,7 +493,7 @@ std::string LineStringBuilder::checkTable(std::string& in, std::ofstream& output
 std::string LineStringBuilder::checkEndTable(std::string& in, std::ofstream& output, ConstStrings* error)
 {
     error->flag_table_mode = false;
-    in = replaceIfFound(in, error->marker_table_end, error->string_table_end);
+    in = replaceIfFound(in, error->marker_table_end, error->string_table_end, NULL);
     return in;
 }
 
@@ -527,14 +555,25 @@ std::string LineStringBuilder::getPathFromFullPath(std::string full_path)
 
 ////////////////////////////////
 // simple replacement function
-std::string LineStringBuilder::replaceIfFound(std::string &in, std::string search, std::string insert)
+std::string LineStringBuilder::replaceIfFound(std::string &in, std::string search, std::string insert, bool *toggle_mode)
 {
-    return replaceIfFound(in, search, insert, 0);
+    return replaceIfFound(in, search, insert, 0, toggle_mode);
 }
 
-std::string LineStringBuilder::replaceIfFound(std::string &in, std::string search, std::string insert, int pos_mod)
+
+std::string LineStringBuilder::replaceIfFound(std::string &in, std::string search, std::string insert, int pos_mod, bool *toggle_mode)
 {
     size_t found_pos = 0;
+    
+    // toggle mode
+    if((toggle_mode != NULL)&&(( found_pos = in.find(search)) != std::string::npos))
+    {
+        if(*toggle_mode == true)
+            *toggle_mode = false;
+        else if(*toggle_mode == false)
+            *toggle_mode = true;
+    }
+    
     // if string was found was found
     while ( ( found_pos = in.find(search)) != std::string::npos)
     {
@@ -568,6 +607,8 @@ std::string LineStringBuilder::replaceIfFoundWithoutCharacter(std::string &in, s
 {
     return replaceIfFoundWithoutCharacter(in, search, insert, c, 0);
 }
+
+
 
 ////////////////////////////////
 // generates a tabulator string for a certain deep

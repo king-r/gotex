@@ -17,16 +17,17 @@ public:
     // functions
     //////////////////////////////////////////
     // replacement function, command -> tex
-    std::string handleString(std::string in, std::ofstream &output ,int &list_deep, ConstStrings *error);
+    std::string handleString(std::string in, std::ofstream &output, int actual_line, int &list_deep, ConstStrings *error);
     // replacement function, correction of generated tex file
     std::string correctTexString(std::string in, ConstStrings *error);
     std::string generateColumnsFromInt(int columns_quantity);
     // string handler algorithms
     bool checkForTableMode(std::string &in, std::ofstream &output, ConstStrings *error);
-    void checkForSimpleReplacements(std::string &in);
+    void checkForSimpleReplacements(std::string &in, ConstStrings *error);
     void checkForSimpleCharacterReplacements(std::string &in);
     bool checkForNonCombinableCommands(std::string &in, std::ofstream &output, int &list_deep, bool stop_itemization, ConstStrings *error);
     // gotex command algorithms
+    bool checkForTexCommand(std::string &in, std::ofstream &output, ConstStrings *error);
     std::string checkItemization(std::string &in, int &list_deep, std::ofstream &output, ConstStrings *error);
     std::string checkImage(std::string &in, size_t found_pos, std::ofstream &output, ConstStrings* error);
     std::string checkTable(std::string &in, std::ofstream &output, ConstStrings *error);
@@ -35,8 +36,8 @@ public:
     std::string getPathFromFullPath(std::string full_path);
     std::string replaceIfFoundWithoutCharacter(std::string &in, std::string search, std::string insert, char c, int pos_mod);
     std::string replaceIfFoundWithoutCharacter(std::string &in, std::string search, std::string insert, char c);
-    std::string replaceIfFound(std::string &in, std::string search, std::string insert);
-    std::string replaceIfFound(std::string &in, std::string search, std::string insert, int pos_mov);
+    std::string replaceIfFound(std::string &in, std::string search, std::string insert, bool *toggle_mode);
+    std::string replaceIfFound(std::string &in, std::string search, std::string insert, int pos_mov, bool *toggle_mode);
     std::string gereateTabulatorDeep(int deep);
     void writeToFile(std::string text, std::ofstream &file);
     // de- & constructors
