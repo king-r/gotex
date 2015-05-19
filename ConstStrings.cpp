@@ -125,7 +125,10 @@ const string ConstStrings::message_document_mode = "Error reading document class
 // Log Messages
 const string ConstStrings::log_message_type_info = "Info: ";
 const string ConstStrings::log_message_type_error = "Error: ";
+const string ConstStrings::log_message_type_action = "Action: ";
+const string ConstStrings::log_message_type_marker = "Marker: ";
 
+const string ConstStrings::log_message_marker = "---------------------------------------------------";// LC: 0
 const string ConstStrings::log_message_opened_file = "Opened file ";                // LC: 1
 const string ConstStrings::log_message_saved_file = "Saved file ";                  // LC: 2
 const string ConstStrings::log_message_open_pdf_success = "Successfully opened ";   // LC: 3
@@ -136,6 +139,9 @@ const string ConstStrings::log_message_fat_mode_on = "#fat was not closed (fat# 
 const string ConstStrings::log_message_ital_mode_on = "#ital was not closed (ital# missing)"; //LC: 8
 const string ConstStrings::log_message_frame_mode_on = "#frame was not closed (frame# missing)"; //LC: 9
 const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (todo# missing)"; //LC: 10
+
+const string ConstStrings::log_message_action_gotex = "Started Go Tex!";
+const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!";
 
 void ConstStrings::PrintErrorMessage(int code)
 {
@@ -159,8 +165,10 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
     std::string message = "";
     switch(code)
     {
+		// line marker
+        case 0: message = log_message_type_marker + log_message_marker; break;
         // opened a file
-        case 1: message = log_message_type_info + log_message_opened_file + insert; break;
+        case 1: message = log_message_type_action + log_message_opened_file + insert; break;
         // saved the current file 
         case 2: message = log_message_type_info + log_message_saved_file + insert; break;
         // open pdf file success
@@ -179,16 +187,27 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 9: message = log_message_type_error + log_message_frame_mode_on; break;
         // todo mode still on
         case 10: message = log_message_type_error + log_message_todo_mode_on; break;
+        
+        // Actions 
+        // gotex started
+        case 11: message = log_message_type_action + log_message_action_gotex; break;
+        // tex file created
+        case 12: message = log_message_type_action + log_message_action_tex_created; break;
+        //  file
+        //case 13: message = log_message_type_action + log_message_action_opened_file; break;
     }
     
     message.append("\n");
     
     gtk_text_buffer_insert(log_buffer, &iter_end, message.c_str(), message.size());
 		
-		//set scrolledwindow to bottom
-		gtk_adjustment_set_value(log_adj, gtk_adjustment_get_upper(log_adj));
-		while(gtk_events_pending())
-			gtk_main_iteration();
+	//format log_message_type color here TODO
+		
+		
+	//set scrolledwindow to bottom
+	gtk_adjustment_set_value(log_adj, gtk_adjustment_get_upper(log_adj));
+	while(gtk_events_pending())
+		gtk_main_iteration();
 }
 
 

@@ -91,6 +91,9 @@ public:
     // Log Message strings
     static const std::string log_message_type_info;
     static const std::string log_message_type_error;
+    static const std::string log_message_type_action;
+    static const std::string log_message_type_marker;
+    static const std::string log_message_marker;                // LC:  0
     static const std::string log_message_opened_file;           // LC:  1
     static const std::string log_message_saved_file;            // LC:  2
     static const std::string log_message_open_pdf_success;      // LC:  3
@@ -101,6 +104,11 @@ public:
     static const std::string log_message_ital_mode_on;          // LC:  8
     static const std::string log_message_frame_mode_on;         // LC:  9
     static const std::string log_message_todo_mode_on;          // LC: 10
+
+    static const std::string log_message_action_gotex;          // LC: 11
+    static const std::string log_message_action_tex_created;    // LC: 12
+    static const std::string log_message_action_opened_file;    // LC: 13
+    
     
     // Latex strings
     static const std::string string_titlepage;
