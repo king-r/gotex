@@ -566,6 +566,7 @@ std::string LineStringBuilder::replaceIfFound(std::string &in, std::string searc
     size_t found_pos = 0;
     
     // toggle mode
+    // if string was found was found
     if((toggle_mode != NULL)&&(( found_pos = in.find(search)) != std::string::npos))
     {
         if(*toggle_mode == true)
@@ -574,7 +575,6 @@ std::string LineStringBuilder::replaceIfFound(std::string &in, std::string searc
             *toggle_mode = true;
     }
     
-    // if string was found was found
     while ( ( found_pos = in.find(search)) != std::string::npos)
     {
         in.erase(found_pos + pos_mod, search.size()+1);

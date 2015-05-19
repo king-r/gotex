@@ -21,7 +21,6 @@
 
     Bugs to fix:
 
-    - #center - wrong error message (when 2x gotex without changing text)
     - log ouput - always scroll to bottom
     - renew table and itemization button icon
     - focus textview after click on log
@@ -52,6 +51,7 @@
 
     Done:
 
+    - #center - wrong error message (when 2x gotex without changing text)
     - #tex command
     - clean new classes
     - migrate static_functions.cpp into separate classes
