@@ -192,6 +192,9 @@ public:
     // log buffer of logmessage
     GtkTextBuffer *log_buffer;
     
+    // gtk log adjustment of scrolledwindow_log
+    GtkAdjustment *log_adj;
+    
     // tex conversion modes
     bool mode_todo;
     int todo_open_line;

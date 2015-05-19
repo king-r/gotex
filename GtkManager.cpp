@@ -170,6 +170,12 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     //g_signal_connect(G_OBJECT(log_output), "clicked", G_CALLBACK(focusTextView), (gpointer) textview);
     GtkTextBuffer *log_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(log_output));
     error->log_buffer = log_buffer;
+    ///////////////////////////
+    // Log Output
+		GtkScrolledWindow *log_out_scrolled = GTK_SCROLLED_WINDOW(gtk_builder_get_object(builder, "scrolledwindow_log"));
+		GtkAdjustment *adj_log = gtk_scrolled_window_get_vadjustment(log_out_scrolled);
+		error->log_adj = adj_log;
+		
     
     ///////////////////////////
     // finalize gtk

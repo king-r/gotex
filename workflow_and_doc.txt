@@ -21,7 +21,6 @@
 
     Bugs to fix:
 
-    - log ouput - always scroll to bottom
     - renew table and itemization button icon
     - focus textview after click on log
     - problems with paths which include '&'
@@ -51,6 +50,7 @@
 
     Done:
 
+    - log output - always scroll to bottom
     - #center - wrong error message (when 2x gotex without changing text)
     - #tex command
     - clean new classes

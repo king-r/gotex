@@ -184,6 +184,11 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
     message.append("\n");
     
     gtk_text_buffer_insert(log_buffer, &iter_end, message.c_str(), message.size());
+		
+		//set scrolledwindow to bottom
+		gtk_adjustment_set_value(log_adj, gtk_adjustment_get_upper(log_adj));
+		while(gtk_events_pending())
+			gtk_main_iteration();
 }
 
 
@@ -206,6 +211,7 @@ ConstStrings::ConstStrings() {
     table_counter = 0;
     
     log_buffer = NULL;
+		log_adj = NULL;
     
     error_appeared = false;
     
