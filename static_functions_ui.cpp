@@ -42,7 +42,8 @@ static void openFile(GtkWidget *sender, GtkTextBuffer *buffer);
 static void createTexFile(GtkWidget *sender, GtkTextView *textview);
 // go tex - generate tex -> pdflatex -> open pdf in pdfviewer 
 static void goTex(GtkWidget *sender, GtkTextView *textview);
-
+// clear log
+static void clearLog(GtkWidget *sender, GtkTextBuffer *log_buffer);
 ////////////////////////////////////////////////////
 // Configuration functions
 ////////////////////////////////////////////////////
@@ -114,6 +115,13 @@ static void goTex(GtkWidget *sender, GtkTextView *textview)
     ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(textview), "error");
     GtkTextBuffer *buffer = gtk_text_view_get_buffer (textview);
     FileOperator::goTex(textview, buffer, error);
+}
+
+
+static void clearLog(GtkWidget* sender, GtkTextBuffer* log_buffer)
+{
+    ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(log_buffer), "error");
+    FileOperator::clearLog(log_buffer, error);
 }
 
 

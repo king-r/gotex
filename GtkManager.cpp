@@ -132,7 +132,7 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     // Gotex button
     GtkButton *go_tex_button = GTK_BUTTON(gtk_builder_get_object(builder, "go_tex_button"));
     g_signal_connect(G_OBJECT(go_tex_button), "clicked", G_CALLBACK(goTex), (gpointer) textview);
-   
+
     /////////////////
     //sidebar buttons
     
@@ -171,12 +171,17 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     //g_signal_connect(G_OBJECT(log_output), "clicked", G_CALLBACK(focusTextView), (gpointer) textview);
     GtkTextBuffer *log_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(log_output));
     error->log_buffer = log_buffer;
-    ///////////////////////////
-    // Log Output
+    // Log Output scrolled window
 	GtkScrolledWindow *log_out_scrolled = GTK_SCROLLED_WINDOW(gtk_builder_get_object(builder, "scrolledwindow_log"));
 	GtkAdjustment *adj_log = gtk_scrolled_window_get_vadjustment(log_out_scrolled);
 	error->log_adj = adj_log;
-		
+	
+    g_object_set_data(G_OBJECT(log_buffer), "tex_check", error);
+	
+    // clear log button
+    GtkButton *clear_log_button = GTK_BUTTON(gtk_builder_get_object(builder, "clear_log_button"));
+    g_signal_connect(G_OBJECT(clear_log_button), "clicked", G_CALLBACK(clearLog), (gpointer) log_buffer);
+
     
     ///////////////////////////
     // finalize gtk
