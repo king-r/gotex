@@ -34,7 +34,8 @@ void TextFileReader::ReadBaseFile(std::ofstream &output, const char *notes_filen
     if(base_file.fail())
     {
         // Printing Error Message: "Error opening basefile.\n";
-        error->PrintErrorMessage(1);
+        //error->PrintErrorMessage(1);
+        error->PrintLogMessage(13, "");
     }
     
     // read file linewise
@@ -76,7 +77,8 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
     if(notes_file == NULL)
     {
         //Prints "Error opening Notes-file."    EC 2
-        error->PrintErrorMessage(2);
+        //error->PrintErrorMessage(2);
+        error->PrintLogMessage(14, "");
     }
         
     // reading notes-file line by line
@@ -212,7 +214,7 @@ void TextFileReader::writeDocumentMode(std::string &file_line, ConstStrings* err
         case 2: file_line.insert(found_pos, error->string_beamer); break;
         // report
         case 3: file_line.insert(found_pos, error->string_report); break;
-        default: error->PrintErrorMessage(6); break;
+        default: error->PrintLogMessage(18, ""); break;
     }
 }
 

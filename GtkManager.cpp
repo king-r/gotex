@@ -26,7 +26,8 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     if (gtk_builder_add_from_file (builder, "ui/gotex_ui.ui", NULL) == 0)
     {
         // prints error message: "Error loading Gui-File\n"
-        error->PrintErrorMessage(5);
+        //error->PrintErrorMessage(5);
+        error->PrintLogMessage(17, "");
     }
     
 

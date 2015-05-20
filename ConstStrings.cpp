@@ -115,12 +115,12 @@ const std::string ConstStrings::string_smaller_than = "$<$";
 const std::string ConstStrings::string_item = "\\item";
 
 // Error messages
-const string ConstStrings::message_file_base = "Error opening basefile.\n";         // EC: 1
-const string ConstStrings::message_file_notes = "Error opening notesfile.\n";       // EC: 2
-const string ConstStrings::message_file_text = "Error opening Text-file.\n";        // EC: 3
-const string ConstStrings::message_file_text_save = "Error saving Text-file.\n";    // EC: 4
-const string ConstStrings::message_file_gui = "Error loading GUI-File\n";           // EC: 5
-const string ConstStrings::message_document_mode = "Error reading document class\n"; // EC: 6
+const string ConstStrings::log_message_file_base = "Error opening basefile.\n";         // EC: 1
+const string ConstStrings::log_message_file_notes = "Error opening notesfile.\n";       // EC: 2
+const string ConstStrings::log_message_file_text = "Error opening Text-file.\n";        // EC: 3
+const string ConstStrings::log_message_file_text_save = "Error saving Text-file.\n";    // EC: 4
+const string ConstStrings::log_message_file_gui = "Error loading GUI-File\n";           // EC: 5
+const string ConstStrings::log_message_document_mode = "Error reading document class\n"; // EC: 6
 
 // Log Messages
 const string ConstStrings::log_message_type_info = "Info: ";
@@ -144,16 +144,16 @@ const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (tod
 const string ConstStrings::log_message_action_gotex = "Started Go Tex!";
 const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!";
 
-void ConstStrings::PrintErrorMessage(int code)
+void ConstStrings::PrintErrorMessage(int code) // add 12 to error code to get log code
 {
     switch (code)
     {
-        case 1: cout << message_file_base; break;
-        case 2: cout << message_file_notes; break;
-        case 3: cout << message_file_text; break;
-        case 4: cout << message_file_text_save; break;
-        case 5: cout << message_file_gui; break;
-        case 6: cout << message_document_mode; break;
+        case 1: cout << log_message_file_base; break;
+        case 2: cout << log_message_file_notes; break;
+        case 3: cout << log_message_file_text; break;
+        case 4: cout << log_message_file_text_save; break;
+        case 5: cout << log_message_file_gui; break;
+        case 6: cout << log_message_document_mode; break;
     }
 }
 
@@ -194,6 +194,20 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 11: message = log_message_type_action + log_message_action_gotex; break;
         // tex file created
         case 12: message = log_message_type_action + log_message_action_tex_created; break;
+        
+        // error open base-file
+        case 13: message = log_message_type_error + log_message_file_base; break;
+        // error open notes file
+        case 14: message = log_message_type_error + log_message_file_notes; break;
+        // error open text file
+        case 15: message = log_message_type_error + log_message_file_text; break;
+        // error save text file
+        case 16: message = log_message_type_error + log_message_file_text_save; break;
+        // error loading gui file
+        case 17: message = log_message_type_error + log_message_file_gui; break;
+        // error loading document class
+        case 18: message = log_message_type_error + log_message_document_mode; break;
+        
 
         // empty message
         case 100: message = log_message_type_log + insert; break;

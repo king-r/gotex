@@ -82,12 +82,12 @@ public:
     static const std::string marker_bigger_than;
     static const std::string marker_smaller_than;
     // Error Messages
-    static const std::string message_file_base;             // EC: 1
-    static const std::string message_file_notes;            // EC: 2
-    static const std::string message_file_text;             // EC: 3
-    static const std::string message_file_text_save;        // EC: 4
-    static const std::string message_file_gui;              // EC: 5
-    static const std::string message_document_mode;         // EC: 6
+    static const std::string log_message_file_base;             // EC: 1
+    static const std::string log_message_file_notes;            // EC: 2
+    static const std::string log_message_file_text;             // EC: 3
+    static const std::string log_message_file_text_save;        // EC: 4
+    static const std::string log_message_file_gui;              // EC: 5
+    static const std::string log_message_document_mode;         // EC: 6
     // Log Message strings
     static const std::string log_message_type_info;
     static const std::string log_message_type_error;
