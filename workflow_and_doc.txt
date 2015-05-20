@@ -32,7 +32,6 @@
 
     - displaymath mode
     - clear log button
-    - bring log messages codes into order
     - change GtkTextView to GtkSourceView
         - insert line number into log messages
 
@@ -48,6 +47,7 @@
 
     Done:
 
+    - bring log messages codes into order
     - migrate error messages into error message log
     - create info & error messages for tex creation / gotex
         - create error messages

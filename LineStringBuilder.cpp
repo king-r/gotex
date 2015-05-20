@@ -210,7 +210,6 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
             
             // count the columns of the row 
             int i = 1;
-            std::cout << in << std::endl;
             for(found_pos = 0; std::string::npos != (found_pos = in.find(error->marker_and, found_pos+1) ); i++)
             {
                 size_t found_backslash = found_pos-1;
@@ -221,7 +220,6 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
             }
             // save column quantity
             error->active_table.push_back(i);
-            std::cout << "saved columns: " << i << std::endl;
             in = error->string_tabulator + in + " " + error->string_newline;
         }
         

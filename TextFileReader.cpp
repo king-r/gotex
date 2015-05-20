@@ -35,7 +35,7 @@ void TextFileReader::ReadBaseFile(std::ofstream &output, const char *notes_filen
     {
         // Printing Error Message: "Error opening basefile.\n";
         //error->PrintErrorMessage(1);
-        error->PrintLogMessage(13, "");
+        error->PrintLogMessage(1006, "");
     }
     
     // read file linewise
@@ -78,7 +78,7 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
     {
         //Prints "Error opening Notes-file."    EC 2
         //error->PrintErrorMessage(2);
-        error->PrintLogMessage(14, "");
+        error->PrintLogMessage(1007, "");
     }
         
     // reading notes-file line by line
@@ -114,15 +114,15 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
 void TextFileReader::checkForModesOn(ConstStrings* error)
 {
     if(error->mode_center)
-        error->PrintLogMessage(6, "");
+        error->PrintLogMessage(1001, "");
     if(error->mode_fat)
-        error->PrintLogMessage(7, "");
+        error->PrintLogMessage(1002, "");
     if(error->mode_ital)
-        error->PrintLogMessage(8, "");
+        error->PrintLogMessage(1003, "");
     if(error->mode_frame)
-        error->PrintLogMessage(9, "");
+        error->PrintLogMessage(1004, "");
     if(error->mode_todo)
-        error->PrintLogMessage(10, "");
+        error->PrintLogMessage(1005, "");
     
     // reset modes
     error->mode_center = false;
@@ -214,7 +214,7 @@ void TextFileReader::writeDocumentMode(std::string &file_line, ConstStrings* err
         case 2: file_line.insert(found_pos, error->string_beamer); break;
         // report
         case 3: file_line.insert(found_pos, error->string_report); break;
-        default: error->PrintLogMessage(18, ""); break;
+        default: error->PrintLogMessage(1011, ""); break;
     }
 }
 

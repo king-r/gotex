@@ -27,7 +27,7 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     {
         // prints error message: "Error loading Gui-File\n"
         //error->PrintErrorMessage(5);
-        error->PrintLogMessage(17, "");
+        error->PrintLogMessage(1010, "");
     }
     
 

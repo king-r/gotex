@@ -152,6 +152,7 @@ public:
     // functions
     void PrintErrorMessage(int code);
     void PrintLogMessage(int code, std::string insert);
+    void addLogMessageType(std::string &message, int code);
     
     void setFileName(std::string in);
     //////////////////////////////////////////

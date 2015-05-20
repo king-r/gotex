@@ -115,12 +115,12 @@ const std::string ConstStrings::string_smaller_than = "$<$";
 const std::string ConstStrings::string_item = "\\item";
 
 // Error messages
-const string ConstStrings::log_message_file_base = "Error opening basefile.\n";         // EC: 1
-const string ConstStrings::log_message_file_notes = "Error opening notesfile.\n";       // EC: 2
-const string ConstStrings::log_message_file_text = "Error opening Text-file.\n";        // EC: 3
-const string ConstStrings::log_message_file_text_save = "Error saving Text-file.\n";    // EC: 4
-const string ConstStrings::log_message_file_gui = "Error loading GUI-File\n";           // EC: 5
-const string ConstStrings::log_message_document_mode = "Error reading document class\n"; // EC: 6
+//const string ConstStrings::log_message_file_base = "Error opening basefile.\n";         // EC: 1
+//const string ConstStrings::log_message_file_notes = "Error opening notesfile.\n";       // EC: 2
+//const string ConstStrings::log_message_file_text = "Error opening Text-file.\n";        // EC: 3
+//const string ConstStrings::log_message_file_text_save = "Error saving Text-file.\n";    // EC: 4
+//const string ConstStrings::log_message_file_gui = "Error loading GUI-File\n";           // EC: 5
+//const string ConstStrings::log_message_document_mode = "Error reading document class\n"; // EC: 6
 
 // Log Messages
 const string ConstStrings::log_message_type_info = "Info: ";
@@ -140,10 +140,17 @@ const string ConstStrings::log_message_fat_mode_on = "#fat was not closed (fat# 
 const string ConstStrings::log_message_ital_mode_on = "#ital was not closed (ital# missing)"; //LC: 8
 const string ConstStrings::log_message_frame_mode_on = "#frame was not closed (frame# missing)"; //LC: 9
 const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (todo# missing)"; //LC: 10
+const string ConstStrings::log_message_action_gotex = "Started Go Tex!";//LC: 11
+const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!"; //LC: 12
+const string ConstStrings::log_message_file_base = "Error opening basefile.";         // LC: 13
+const string ConstStrings::log_message_file_notes = "Error opening notesfile.";       // LC: 14
+const string ConstStrings::log_message_file_text = "Error opening Text-file.";        // LC: 15
+const string ConstStrings::log_message_file_text_save = "Error saving Text-file.";    // LC: 16
+const string ConstStrings::log_message_file_gui = "Error loading GUI-File";           // LC: 17
+const string ConstStrings::log_message_document_mode = "Error reading document class"; // LC: 18
 
-const string ConstStrings::log_message_action_gotex = "Started Go Tex!";
-const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!";
 
+// DEPRECATED! use PrintLogMessage
 void ConstStrings::PrintErrorMessage(int code) // add 12 to error code to get log code
 {
     switch (code)
@@ -158,59 +165,84 @@ void ConstStrings::PrintErrorMessage(int code) // add 12 to error code to get lo
 }
 
 
+// PrintLogMessage - adds message into log text view
+//
+// Codes:
+//       0: marker
+//       1: standard output/logging mechanism
+// >= 1000: error messages
+// >= 2000: info messages
+// >= 3000: action messages
 void ConstStrings::PrintLogMessage(int code, std::string insert)
 {
     GtkTextIter iter_end;
     gtk_text_buffer_get_end_iter(log_buffer, &iter_end);
     
     std::string message = "";
+
+    // add message type to message
+    addLogMessageType(message, code);
+            
+    // add log message
     switch(code)
     {
+        ///////////////////
 		// line marker
-        case 0: message = log_message_type_marker + log_message_marker; break;
-        // opened a file
-        case 1: message = log_message_type_action + log_message_opened_file + insert; break;
-        // saved the current file 
-        case 2: message = log_message_type_info + log_message_saved_file + insert; break;
-        // open pdf file success
-        case 3: message = log_message_type_info + log_message_open_pdf_success + insert; break;
-        // open pdf file failure
-        case 4: message = log_message_type_error + log_message_open_pdf_failure + insert; break;
-        // no need to save file 
-        case 5: message = log_message_type_info + insert + log_message_not_need_save_file; break;
-        // center mode still on
-        case 6: message = log_message_type_error + log_message_center_mode_on; break;
-        // fat mode still on
-        case 7: message = log_message_type_error + log_message_fat_mode_on; break;
-        // ital mode still on
-        case 8: message = log_message_type_error + log_message_ital_mode_on; break;
-        // frame mode still on
-        case 9: message = log_message_type_error + log_message_frame_mode_on; break;
-        // todo mode still on
-        case 10: message = log_message_type_error + log_message_todo_mode_on; break;
-        
-        // Actions 
-        // gotex started
-        case 11: message = log_message_type_action + log_message_action_gotex; break;
-        // tex file created
-        case 12: message = log_message_type_action + log_message_action_tex_created; break;
-        
-        // error open base-file
-        case 13: message = log_message_type_error + log_message_file_base; break;
-        // error open notes file
-        case 14: message = log_message_type_error + log_message_file_notes; break;
-        // error open text file
-        case 15: message = log_message_type_error + log_message_file_text; break;
-        // error save text file
-        case 16: message = log_message_type_error + log_message_file_text_save; break;
-        // error loading gui file
-        case 17: message = log_message_type_error + log_message_file_gui; break;
-        // error loading document class
-        case 18: message = log_message_type_error + log_message_document_mode; break;
-        
+        ///////////////////
+        case 0: message = message + log_message_marker; break;
 
-        // empty message
-        case 100: message = log_message_type_log + insert; break;
+        ///////////////////
+        // statdard logging mechanism message
+        ///////////////////
+        case 1: message = message + insert; break;
+
+        ///////////////////
+        // Error Messages
+        ///////////////////
+        // open pdf file failure
+        case 1000: message = message + log_message_open_pdf_failure + insert; break;
+        // center mode still on
+        case 1001: message = message + log_message_center_mode_on; break;
+        // fat mode still on
+        case 1002: message = message + log_message_fat_mode_on; break;
+        // ital mode still on
+        case 1003: message = message + log_message_ital_mode_on; break;
+        // frame mode still on
+        case 1004: message = message + log_message_frame_mode_on; break;
+        // todo mode still on
+        case 1005: message = message + log_message_todo_mode_on; break;
+        // error open base-file
+        case 1006: message = message + log_message_file_base; break;
+        // error open notes file
+        case 1007: message = message + log_message_file_notes; break;
+        // error open text file
+        case 1008: message = message + log_message_file_text; break;
+        // error save text file
+        case 1009: message = message + log_message_file_text_save; break;
+        // error loading gui file
+        case 1010: message = message + log_message_file_gui; break;
+        // error loading document class
+        case 1011: message = message + log_message_document_mode; break;
+        
+        ///////////////////
+        // Info Messages
+        ///////////////////
+        // saved the current file 
+        case 2000: message = message + log_message_saved_file + insert; break;
+        // open pdf file success
+        case 2001: message = message + log_message_open_pdf_success + insert; break;
+        // no need to save file 
+        case 2002: message = message + insert + log_message_not_need_save_file; break;
+        
+        ///////////////////
+        // Actions 
+        ///////////////////
+        // opened a file
+        case 3000: message = message + log_message_opened_file + insert; break;        
+        // gotex started
+        case 3001: message = message + log_message_action_gotex; break;
+        // tex file created
+        case 3002: message = message + log_message_action_tex_created; break;
     }
     
     message.append("\n");
@@ -224,6 +256,28 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
 	gtk_adjustment_set_value(log_adj, gtk_adjustment_get_upper(log_adj));
 	while(gtk_events_pending())
 		gtk_main_iteration();
+}
+
+
+void ConstStrings::addLogMessageType(std::string &message, int code)
+{
+    // divide code to check which type the message is
+    int div = code / 1000;
+
+    switch(div)
+    {
+        case 0: 
+            if(code == 0)
+            {   message = log_message_type_marker; break; }
+            else
+            {   message = log_message_type_log; break; }
+        case 1:
+            message = log_message_type_error; break;
+        case 2:
+            message = log_message_type_info; break;
+        case 3:
+            message = log_message_type_action; break;
+    }
 }
 
 
