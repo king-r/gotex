@@ -21,7 +21,6 @@
 
     Bugs to fix:
 
-    - renew table and itemization button icon
     - focus textview after click on log
     - problems with paths which include '&'
     - minus (-) in math-mode - never itemisation! - math mode recognition
@@ -39,6 +38,7 @@
 
     Not so easy tasks: 
 
+    - renew itemization button icon
     - rework fork algorithm
     - GUI - Menu - mirate documentclass
     - scroll while writing
