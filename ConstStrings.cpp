@@ -127,6 +127,7 @@ const string ConstStrings::log_message_type_info = "Info: ";
 const string ConstStrings::log_message_type_error = "Error: ";
 const string ConstStrings::log_message_type_action = "Action: ";
 const string ConstStrings::log_message_type_marker = "Marker: ";
+const string ConstStrings::log_message_type_log = "Log: ";
 
 const string ConstStrings::log_message_marker = "---------------------------------------------------";// LC: 0
 const string ConstStrings::log_message_opened_file = "Opened file ";                // LC: 1
@@ -193,8 +194,9 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 11: message = log_message_type_action + log_message_action_gotex; break;
         // tex file created
         case 12: message = log_message_type_action + log_message_action_tex_created; break;
-        //  file
-        //case 13: message = log_message_type_action + log_message_action_opened_file; break;
+
+        // empty message
+        case 100: message = log_message_type_log + insert; break;
     }
     
     message.append("\n");
@@ -202,7 +204,7 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
     gtk_text_buffer_insert(log_buffer, &iter_end, message.c_str(), message.size());
 		
 	//format log_message_type color here TODO
-		
+
 		
 	//set scrolledwindow to bottom
 	gtk_adjustment_set_value(log_adj, gtk_adjustment_get_upper(log_adj));

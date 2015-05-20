@@ -25,8 +25,6 @@
     - focus textview after click on log
     - problems with paths which include '&'
     - minus (-) in math-mode - never itemisation! - math mode recognition
-    - automated table-column recognition
-    - table quantity of rows not correct
 
 ------------------------
 
@@ -51,6 +49,7 @@
 
     Done:
 
+    - automated table-column recognition - quantity of rows
     - add log marker and actions
     - log output - always scroll to bottom
     - #center - wrong error message (when 2x gotex without changing text)

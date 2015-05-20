@@ -93,6 +93,7 @@ public:
     static const std::string log_message_type_error;
     static const std::string log_message_type_action;
     static const std::string log_message_type_marker;
+    static const std::string log_message_type_log;
     static const std::string log_message_marker;                // LC:  0
     static const std::string log_message_opened_file;           // LC:  1
     static const std::string log_message_saved_file;            // LC:  2

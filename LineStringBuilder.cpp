@@ -149,13 +149,14 @@ std::string LineStringBuilder::correctTexString(std::string in, ConstStrings* er
 
 std::string LineStringBuilder::generateColumnsFromInt(int columns)
 {
-        // write columns
+    // write columns
     std::string columns_tex = "";
     for(; columns > 0;columns--)
     {
         columns_tex = columns_tex + "|c";
     }
     columns_tex = columns_tex + "|";
+    
     
     return columns_tex;
 }
@@ -208,19 +209,19 @@ bool LineStringBuilder::checkForTableMode(std::string &in, std::ofstream& output
             }
             
             // count the columns of the row 
-            int i = 2;
-            for(found_pos = 0; std::string::npos != (found_pos = in.find(error->string_and, found_pos+1) ); i++)
+            int i = 1;
+            std::cout << in << std::endl;
+            for(found_pos = 0; std::string::npos != (found_pos = in.find(error->marker_and, found_pos+1) ); i++)
             {
-                size_t found_backslash = found_pos;
-                if(in.find("\\", found_backslash) == found_backslash)
+                size_t found_backslash = found_pos-1;
+                if((found_backslash >= 0)&&(in.find("\\", found_backslash) == found_backslash))
                 {
                     i--;
                 }
             }
             // save column quantity
-						i++;
             error->active_table.push_back(i);
-            //std::cout << "saved columns: " << i << std::endl;
+            std::cout << "saved columns: " << i << std::endl;
             in = error->string_tabulator + in + " " + error->string_newline;
         }
         
