@@ -25,7 +25,6 @@
 
     Bugs to fix:
 
-    - problems with paths which include '&'
 
 ------------------------
 
@@ -48,6 +47,7 @@
 
     Done:
 
+    - problems with paths which include '&' - problem of pdflatex
     - add error message: missing "math#"
     - displaymath mode: #math math#
     - add clear log button
