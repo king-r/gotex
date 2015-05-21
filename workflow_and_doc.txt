@@ -16,20 +16,22 @@
     - document config generator
     - make makros possible
     - dictonary for special characters (e.g. greek letters)
+    - more log-messages - where?
+    - pure tex-code command
+    - remove grep from pdfcommand and remove latex errors?
 
 ------------------------
 
     Bugs to fix:
 
-    - focus textview after click on log
     - problems with paths which include '&'
-    - minus (-) in math-mode - never itemisation! - math mode recognition
 
 ------------------------
 
     Work packages: 
 
-    - displaymath mode
+    - minus (-) in math-mode - never itemisation! - math mode recognition
+    - matharray mode : #matharray matharray#
     - change GtkTextView to GtkSourceView
         - insert line number into log messages
 
@@ -37,7 +39,6 @@
 
     Not so easy tasks: 
 
-    - renew itemization button icon
     - rework fork algorithm
     - GUI - Menu - mirate documentclass
     - scroll while writing
@@ -46,7 +47,9 @@
 
     Done:
 
+    - displaymath mode: #math math#
     - add clear log button
+    - renew itemization button icon
     - bring log messages codes into order
     - migrate error messages into error message log
     - create info & error messages for tex creation / gotex
@@ -165,6 +168,7 @@ table#
 #img bildname
 #img big bildname
 
+#math math#
 ----------
 
 Autoreplacements:

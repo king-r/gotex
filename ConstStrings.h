@@ -74,6 +74,9 @@ public:
     static const std::string marker_subsection;
     static const std::string marker_doctitle;
     static const std::string marker_author;
+    static const std::string marker_math;
+    static const std::string marker_math_end;
+    
     // Strings to be replaced
     static const std::string marker_ldots;
     static const std::string marker_and;
@@ -145,6 +148,7 @@ public:
     static const std::string string_bigger_than;
     static const std::string string_smaller_than;
     static const std::string string_item;
+    static const std::string string_displaymath;
     //////////////////////////////////////////
     
     

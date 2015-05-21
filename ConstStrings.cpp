@@ -71,6 +71,9 @@ const std::string ConstStrings::marker_subsection = "#subsection";
 const std::string ConstStrings::marker_listentry = "-";
 const std::string ConstStrings::marker_doctitle = "#doctitle";
 const std::string ConstStrings::marker_author = "#author";
+const std::string ConstStrings::marker_math = "#math";
+const std::string ConstStrings::marker_math_end = "math#";
+
 // strings to be replaced
 const std::string ConstStrings::marker_ldots = "...";
 const std::string ConstStrings::marker_and = "&";
@@ -113,6 +116,7 @@ const std::string ConstStrings::string_hashtag = "\\#";
 const std::string ConstStrings::string_bigger_than = "$>$";
 const std::string ConstStrings::string_smaller_than = "$<$";
 const std::string ConstStrings::string_item = "\\item";
+const std::string ConstStrings::string_displaymath = "\\begin{displaymath}";
 
 // Error messages
 //const string ConstStrings::log_message_file_base = "Error opening basefile.\n";         // EC: 1
