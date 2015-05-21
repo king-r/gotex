@@ -55,9 +55,11 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     g_object_set_data(G_OBJECT(buffer), "error", error);
     g_object_set_data(G_OBJECT(buffer), "textview", textview);
     
-    //g_signal_connect(G_OBJECT(window), "key-press-event", G_CALLBACK(onKeyPress), (gpointer) buffer); 
+    GtkScrolledWindow *text_scrolled = GTK_SCROLLED_WINDOW(gtk_builder_get_object(builder, "scrolledwindow_text"));
+	GtkAdjustment *text_scrolled = gtk_scrolled_window_get_vadjustment(log_out_scrolled);
     
-    
+    g_signal_connect(G_OBJECT(window), "key-press-event", G_CALLBACK(onKeyPress), (gpointer) adj_text); 
+
     
     // documentclass selector
     GtkComboBoxText *document_selector_combotext = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "documentclass_comboboxtext"));
@@ -177,6 +179,8 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
 	error->log_adj = adj_log;
 	
     g_object_set_data(G_OBJECT(log_buffer), "tex_check", error);
+    
+
 	
     // clear log button
     GtkButton *clear_log_button = GTK_BUTTON(gtk_builder_get_object(builder, "clear_log_button"));
