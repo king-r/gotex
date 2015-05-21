@@ -117,6 +117,7 @@ const std::string ConstStrings::string_bigger_than = "$>$";
 const std::string ConstStrings::string_smaller_than = "$<$";
 const std::string ConstStrings::string_item = "\\item";
 const std::string ConstStrings::string_displaymath = "\\begin{displaymath}";
+const std::string ConstStrings::string_displaymath_end = "\\end{displaymath}";
 
 // Error messages
 //const string ConstStrings::log_message_file_base = "Error opening basefile.\n";         // EC: 1

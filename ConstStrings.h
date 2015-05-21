@@ -149,6 +149,7 @@ public:
     static const std::string string_smaller_than;
     static const std::string string_item;
     static const std::string string_displaymath;
+    static const std::string string_displaymath_end;
     //////////////////////////////////////////
     
     

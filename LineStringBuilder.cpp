@@ -277,8 +277,8 @@ void LineStringBuilder::checkForSimpleReplacements(std::string& in, ConstStrings
     replaceIfFound(in, ConstStrings::marker_newline, ConstStrings::string_newline, NULL);        
     // if "#math" was found, replace with "\begin{displaymath}"
     replaceIfFound(in, ConstStrings::marker_math, ConstStrings::string_displaymath, NULL);
-    // if "math#" was found, replace with "}"
-    replaceIfFound(in, ConstStrings::marker_math_end, ConstStrings::string_close_bracket, NULL);
+    // if "math#" was found, replace with "\end{displaymath}"
+    replaceIfFound(in, ConstStrings::marker_math_end, ConstStrings::string_displaymath_end, NULL);
     
     return;
 }
