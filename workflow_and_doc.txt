@@ -17,6 +17,7 @@
     - make makros possible
     - dictonary for special characters (e.g. greek letters)
     - more log-messages - where?
+        - forgot to open mode (e.g. math)
     - pure tex-code command
     - remove grep from pdfcommand and remove latex errors?
 
@@ -47,6 +48,7 @@
 
     Done:
 
+    - add error message: missing "math#"
     - displaymath mode: #math math#
     - add clear log button
     - renew itemization button icon

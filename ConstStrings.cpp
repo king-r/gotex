@@ -145,6 +145,7 @@ const string ConstStrings::log_message_fat_mode_on = "#fat was not closed (fat# 
 const string ConstStrings::log_message_ital_mode_on = "#ital was not closed (ital# missing)"; //LC: 8
 const string ConstStrings::log_message_frame_mode_on = "#frame was not closed (frame# missing)"; //LC: 9
 const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (todo# missing)"; //LC: 10
+const string ConstStrings::log_message_math_mode_on = "#math was not closed (math# missing)"; 
 const string ConstStrings::log_message_action_gotex = "Started Go Tex!";//LC: 11
 const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!"; //LC: 12
 const string ConstStrings::log_message_file_base = "Error opening basefile.";         // LC: 13
@@ -228,6 +229,8 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 1010: message = message + log_message_file_gui; break;
         // error loading document class
         case 1011: message = message + log_message_document_mode; break;
+        // error math mode still on
+        case 1012: message = message + log_message_math_mode_on; break;
         
         ///////////////////
         // Info Messages
@@ -315,13 +318,10 @@ ConstStrings::ConstStrings() {
     todo_deep = 0;
     
     mode_fat = false;
-    fat_open_line = 0;
     mode_ital = false;
-    ital_open_line = 0;
     mode_center = false;
-    center_open_line = 0;
     mode_frame = false;
-    frame_open_line = 0;
+    mode_math = false;
 }
 
 

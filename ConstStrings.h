@@ -108,6 +108,7 @@ public:
     static const std::string log_message_ital_mode_on;          // LC:  8
     static const std::string log_message_frame_mode_on;         // LC:  9
     static const std::string log_message_todo_mode_on;          // LC: 10
+    static const std::string log_message_math_mode_on;
 
     static const std::string log_message_action_gotex;          // LC: 11
     static const std::string log_message_action_tex_created;    // LC: 12
@@ -216,13 +217,10 @@ public:
     int todo_deep;
     
     bool mode_fat;
-    int fat_open_line;
     bool mode_ital;
-    int ital_open_line;
     bool mode_center;
-    int center_open_line;
     bool mode_frame;
-    int frame_open_line;
+    bool mode_math;
 };
 
 #endif	/* CONSTSTRINGS_H */

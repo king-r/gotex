@@ -123,6 +123,8 @@ void TextFileReader::checkForModesOn(ConstStrings* error)
         error->PrintLogMessage(1004, "");
     if(error->mode_todo)
         error->PrintLogMessage(1005, "");
+    if(error->mode_math)
+        error->PrintLogMessage(1012, "");
     
     // reset modes
     error->mode_center = false;
@@ -130,6 +132,7 @@ void TextFileReader::checkForModesOn(ConstStrings* error)
     error->mode_ital = false;
     error->mode_frame = false;
     error->mode_todo = false;
+    error->mode_math = false;
 }
 
 
