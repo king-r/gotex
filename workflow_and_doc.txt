@@ -7,7 +7,7 @@
     
     - split pdf-textpage into left & right ( & optional middle)
     - replace %, Comments?
-    - Img no absolut paths?
+    - Img no absolut paths? - maybe configurable?
     - auto completion
     - table with double \hline?
     - key-bindings
@@ -18,20 +18,23 @@
     - dictonary for special characters (e.g. greek letters)
     - more log-messages - where?
         - forgot to open mode (e.g. math)
-    - pure tex-code command
+        - code review error messages
+        - started xxx ... ended xxx? (e.g.: stared gotex ended gotex
+    - pure tex-code command - pure tex in document possible?
     - remove grep from pdfcommand and remove latex errors?
+    - textput.log delete?
+    - tempfile deleted always?
 
 ------------------------
 
     Bugs to fix:
-
+    
 
 ------------------------
 
     Work packages: 
 
     - minus (-) in math-mode - never itemisation! - math mode recognition
-    - matharray mode : #matharray matharray#
     - change GtkTextView to GtkSourceView
         - insert line number into log messages
 
@@ -41,13 +44,14 @@
 
     - rework fork algorithm
     - GUI - Menu - mirate documentclass
-    - scroll while writing
 
 ------------------------
 
     Done:
 
-    - problems with paths which include '&' - problem of pdflatex
+    - matharray mode : #matharray matharray#
+    - scroll while writing
+    - problems with paths which include '&' - problem of pdflatex no fix (yet)
     - add error message: missing "math#"
     - displaymath mode: #math math#
     - add clear log button

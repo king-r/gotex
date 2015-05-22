@@ -113,6 +113,7 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
 
 void TextFileReader::checkForModesOn(ConstStrings* error)
 {
+    // check for error modes
     if(error->mode_center)
         error->PrintLogMessage(1001, "");
     if(error->mode_fat)
@@ -125,6 +126,10 @@ void TextFileReader::checkForModesOn(ConstStrings* error)
         error->PrintLogMessage(1005, "");
     if(error->mode_math)
         error->PrintLogMessage(1012, "");
+    if(error->mode_matharray)
+        error->PrintLogMessage(1013, "");
+    if(error->mode_matharray_star)
+        error->PrintLogMessage(1014, "");
     
     // reset modes
     error->mode_center = false;
@@ -133,6 +138,8 @@ void TextFileReader::checkForModesOn(ConstStrings* error)
     error->mode_frame = false;
     error->mode_todo = false;
     error->mode_math = false;
+    error->mode_matharray = false;
+    error->mode_matharray_star = false;
 }
 
 

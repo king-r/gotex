@@ -55,10 +55,6 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
     g_object_set_data(G_OBJECT(buffer), "error", error);
     g_object_set_data(G_OBJECT(buffer), "textview", textview);
     
-    GtkScrolledWindow *text_scrolled = GTK_SCROLLED_WINDOW(gtk_builder_get_object(builder, "scrolledwindow_text"));
-	GtkAdjustment *text_scrolled = gtk_scrolled_window_get_vadjustment(log_out_scrolled);
-    
-    g_signal_connect(G_OBJECT(window), "key-press-event", G_CALLBACK(onKeyPress), (gpointer) adj_text); 
 
     
     // documentclass selector

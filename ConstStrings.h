@@ -76,7 +76,10 @@ public:
     static const std::string marker_author;
     static const std::string marker_math;
     static const std::string marker_math_end;
-    
+    static const std::string marker_matharray;
+    static const std::string marker_matharray_end;
+    static const std::string marker_matharray_star;
+    static const std::string marker_matharray_star_end;
     // Strings to be replaced
     static const std::string marker_ldots;
     static const std::string marker_and;
@@ -109,6 +112,10 @@ public:
     static const std::string log_message_frame_mode_on;         // LC:  9
     static const std::string log_message_todo_mode_on;          // LC: 10
     static const std::string log_message_math_mode_on;
+    static const std::string log_message_matharray_mode_on;
+    static const std::string log_message_matharray_star_mode_on;
+    
+    
 
     static const std::string log_message_action_gotex;          // LC: 11
     static const std::string log_message_action_tex_created;    // LC: 12
@@ -151,6 +158,10 @@ public:
     static const std::string string_item;
     static const std::string string_displaymath;
     static const std::string string_displaymath_end;
+    static const std::string string_eqnarray;
+    static const std::string string_eqnarray_end;
+    static const std::string string_eqnarray_star;
+    static const std::string string_eqnarray_star_end;
     //////////////////////////////////////////
     
     
@@ -216,11 +227,14 @@ public:
     int todo_open_line;
     int todo_deep;
     
+    // mode on for error messages
     bool mode_fat;
     bool mode_ital;
     bool mode_center;
     bool mode_frame;
     bool mode_math;
+    bool mode_matharray;
+    bool mode_matharray_star;
 };
 
 #endif	/* CONSTSTRINGS_H */

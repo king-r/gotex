@@ -71,12 +71,6 @@ static void insertItemization(GtkButton *sender, GtkTextBuffer *buffer);
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 
-// not working yet
-static void onKeyPress(GtkWidget *sender, GdkEventKey *event, GtkAdjustment *adj)
-{
-    gtk_adjustment_set_value(gtk_adjustment_get_upper(adj)- gtk_adjustment_get_page_size(adj));
-}
-
 ////////////////////////////////////////////////////
 // FileOperator function callers
 ////////////////////////////////////////////////////

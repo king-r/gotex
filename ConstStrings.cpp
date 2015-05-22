@@ -73,6 +73,9 @@ const std::string ConstStrings::marker_doctitle = "#doctitle";
 const std::string ConstStrings::marker_author = "#author";
 const std::string ConstStrings::marker_math = "#math";
 const std::string ConstStrings::marker_math_end = "math#";
+const std::string ConstStrings::marker_matharray = "#matharray";
+const std::string ConstStrings::marker_matharray_end = "matharray#";
+const std::string ConstStrings::marker_matharray_star = "#matharray*";
 
 // strings to be replaced
 const std::string ConstStrings::marker_ldots = "...";
@@ -118,14 +121,11 @@ const std::string ConstStrings::string_smaller_than = "$<$";
 const std::string ConstStrings::string_item = "\\item";
 const std::string ConstStrings::string_displaymath = "\\begin{displaymath}";
 const std::string ConstStrings::string_displaymath_end = "\\end{displaymath}";
+const std::string ConstStrings::string_eqnarray = "\\begin{eqnarray}";
+const std::string ConstStrings::string_eqnarray_star = "\\begin{eqnarray*}";
+const std::string ConstStrings::string_eqnarray_end = "\\end{eqnarray}";
+const std::string ConstStrings::string_eqnarray_star_end = "\\end{eqnarray*}";
 
-// Error messages
-//const string ConstStrings::log_message_file_base = "Error opening basefile.\n";         // EC: 1
-//const string ConstStrings::log_message_file_notes = "Error opening notesfile.\n";       // EC: 2
-//const string ConstStrings::log_message_file_text = "Error opening Text-file.\n";        // EC: 3
-//const string ConstStrings::log_message_file_text_save = "Error saving Text-file.\n";    // EC: 4
-//const string ConstStrings::log_message_file_gui = "Error loading GUI-File\n";           // EC: 5
-//const string ConstStrings::log_message_document_mode = "Error reading document class\n"; // EC: 6
 
 // Log Messages
 const string ConstStrings::log_message_type_info = "Info: ";
@@ -146,6 +146,8 @@ const string ConstStrings::log_message_ital_mode_on = "#ital was not closed (ita
 const string ConstStrings::log_message_frame_mode_on = "#frame was not closed (frame# missing)"; //LC: 9
 const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (todo# missing)"; //LC: 10
 const string ConstStrings::log_message_math_mode_on = "#math was not closed (math# missing)"; 
+const string ConstStrings::log_message_matharray_mode_on = "#matharray was not closed (matharray# missing)";
+const string ConstStrings::log_message_matharray_star_mode_on = "#matharray* was not closed (matharray# missing)";
 const string ConstStrings::log_message_action_gotex = "Started Go Tex!";//LC: 11
 const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!"; //LC: 12
 const string ConstStrings::log_message_file_base = "Error opening basefile.";         // LC: 13
@@ -231,6 +233,10 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 1011: message = message + log_message_document_mode; break;
         // error math mode still on
         case 1012: message = message + log_message_math_mode_on; break;
+        // error matharray mode still on
+        case 1013: message = message + log_message_matharray_mode_on; break;
+        // error matharray* mode still on
+        case 1014: message = message + log_message_matharray_star_mode_on; break;
         
         ///////////////////
         // Info Messages
@@ -322,6 +328,8 @@ ConstStrings::ConstStrings() {
     mode_center = false;
     mode_frame = false;
     mode_math = false;
+    mode_matharray = false;
+    mode_matharray_star = false;
 }
 
 

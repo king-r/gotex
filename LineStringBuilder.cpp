@@ -275,6 +275,15 @@ void LineStringBuilder::checkForSimpleReplacements(std::string& in, ConstStrings
     replaceIfFound(in, ConstStrings::marker_frame_end, ConstStrings::string_frame_end, &error->mode_frame);
     // if "#newline" was found, replace with "\\"
     replaceIfFound(in, ConstStrings::marker_newline, ConstStrings::string_newline, NULL);        
+    // if "#matharray*" was found, replace with "\begin{eqnarray*}"
+    replaceIfFound(in, ConstStrings::marker_matharray_star, ConstStrings::string_eqnarray_star, &error->mode_matharray_star);    
+    // if "#matharray" was found, replace with "\begin{eqnarray}"
+    replaceIfFound(in, ConstStrings::marker_matharray, ConstStrings::string_eqnarray, &error->mode_matharray);
+    // if "matharray#" was found, replace with "\end{eqnarray}" or "\end{eqnarray*}
+    if(error->mode_matharray_star)
+        replaceIfFound(in, ConstStrings::marker_matharray_end, ConstStrings::string_eqnarray_star_end, &error->mode_matharray_star);
+    else
+        replaceIfFound(in, ConstStrings::marker_matharray_end, ConstStrings::string_eqnarray_end, &error->mode_matharray);
     // if "#math" was found, replace with "\begin{displaymath}"
     replaceIfFound(in, ConstStrings::marker_math, ConstStrings::string_displaymath, &error->mode_math);
     // if "math#" was found, replace with "\end{displaymath}"
