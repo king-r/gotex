@@ -29,12 +29,10 @@
 
     Bugs to fix:
     
-
 ------------------------
 
     Work packages: 
 
-    - minus (-) in math-mode - never itemisation! - math mode recognition
     - change GtkTextView to GtkSourceView
         - insert line number into log messages
 
@@ -49,6 +47,7 @@
 
     Done:
 
+    - minus (-) in math-mode - never itemisation! - math mode recognition
     - matharray mode : #matharray matharray#
     - scroll while writing
     - problems with paths which include '&' - problem of pdflatex no fix (yet)

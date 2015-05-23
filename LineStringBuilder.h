@@ -27,6 +27,7 @@ public:
     void checkForSimpleCharacterReplacements(std::string &in);
     bool checkForNonCombinableCommands(std::string &in, std::ofstream &output, int &list_deep, bool stop_itemization, ConstStrings *error);
     // gotex command algorithms
+    bool checkForMathModeOn(std::string &in, size_t pos, ConstStrings *error);
     bool checkForTexCommand(std::string &in, std::ofstream &output, ConstStrings *error);
     std::string checkItemization(std::string &in, int &list_deep, std::ofstream &output, ConstStrings *error);
     std::string checkImage(std::string &in, size_t found_pos, std::ofstream &output, ConstStrings* error);

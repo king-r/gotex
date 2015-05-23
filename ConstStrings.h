@@ -83,6 +83,7 @@ public:
     // Strings to be replaced
     static const std::string marker_ldots;
     static const std::string marker_and;
+    static const std::string marker_dollar;    
     static const std::string marker_hashtag;    
     static const std::string marker_table_column;    
     static const std::string marker_bigger_than;
@@ -235,6 +236,9 @@ public:
     bool mode_math;
     bool mode_matharray;
     bool mode_matharray_star;
+    bool mode_inline_math;
+    
+    bool itemize_last_line;
 };
 
 #endif	/* CONSTSTRINGS_H */

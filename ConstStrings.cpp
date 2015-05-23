@@ -80,6 +80,7 @@ const std::string ConstStrings::marker_matharray_star = "#matharray*";
 // strings to be replaced
 const std::string ConstStrings::marker_ldots = "...";
 const std::string ConstStrings::marker_and = "&";
+const std::string ConstStrings::marker_dollar = "$";
 const std::string ConstStrings::marker_hashtag = "#";
 const std::string ConstStrings::marker_table_column = "|";
 const std::string ConstStrings::marker_bigger_than = ">";
@@ -330,6 +331,9 @@ ConstStrings::ConstStrings() {
     mode_math = false;
     mode_matharray = false;
     mode_matharray_star = false;
+    mode_inline_math = false;
+    
+    itemize_last_line = false;
 }
 
 

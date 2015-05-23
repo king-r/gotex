@@ -568,7 +568,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkScrolledWindow" id="scrollable_text">
+              <object class="GtkScrolledWindow" id="scrolledwindow_text">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">2</property>

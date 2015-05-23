@@ -58,7 +58,6 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
     bool stop_itemization = true;
     bool exit = false;
 
-
     ////////////////////////////////
     // #tex command
     //
@@ -110,7 +109,65 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
 }
 
 
+////////////////////////////////
+// checks if any math mode is on
+// mode:
+//      - math (displaymath)
+//      - matharray (eqnarray)
+//      - matharray* (eqnarray*)
+//      - inline math ($ $)
+// return: false = off, true = on
+bool LineStringBuilder::checkForMathModeOn(std::string& in, size_t pos, ConstStrings *error)
+{
+    // if non-inline math-mode is on return true
+    if(error->mode_math || error->mode_matharray || error->mode_matharray_star)
+        return true;
+    
+    // check if $-sign is present in string
+    if(in.find(ConstStrings::marker_dollar) == std::string::npos)
+        return error->mode_inline_math;
 
+    bool inline_mode_line_before = error->mode_inline_math;
+    int left = 0, right = 0;
+    size_t pos_dollar = -1;
+
+    // count $-signs on left & right side of pos
+    while(std::string::npos != (pos_dollar = in.find(ConstStrings::marker_dollar, pos_dollar+1)))
+    {
+        if(pos_dollar < pos)
+            left++;
+        else if(pos_dollar > pos)
+            right++;
+        else{} //error;
+    }
+
+    // set new inline math mode
+    int quant_dollar = left + right;
+    if(quant_dollar % 2 != 0)
+    {
+        if(error->mode_inline_math)
+            error->mode_inline_math = false;
+        else
+            error->mode_inline_math = true;
+    }
+    
+    // calculate & check of mode on
+    if((left % 2 != 0))
+    {
+        if(inline_mode_line_before)
+            return false;
+        else
+            return true;
+    }
+    else
+    {
+        if(inline_mode_line_before)
+            return true;
+        else
+            return false;
+    }
+           
+}
 
 ////////////////////////////////
 // corrects generated tex-file
@@ -289,6 +346,8 @@ void LineStringBuilder::checkForSimpleReplacements(std::string& in, ConstStrings
     // if "math#" was found, replace with "\end{displaymath}"
     replaceIfFound(in, ConstStrings::marker_math_end, ConstStrings::string_displaymath_end, &error->mode_math);
     
+    
+    
     return;
 }
 
@@ -306,6 +365,37 @@ void LineStringBuilder::checkForSimpleReplacements(std::string& in, ConstStrings
 bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofstream& output, int &list_deep, bool stop_itemization, ConstStrings* error)
 {
     size_t found_pos = 0;
+    bool itemize = false;
+
+    
+    // if "-" was found check for itemization
+    if( ( (found_pos = in.find(ConstStrings::marker_listentry) ) != std::string::npos) &&  
+            ((found_pos == 0) || (in.at(found_pos-1) == ' ')) && 
+            (false == checkForMathModeOn(in, found_pos, error)) &&
+            (stop_itemization == true) )
+    {
+        itemize = true;
+        checkForSimpleCharacterReplacements(in);
+        checkItemization(in, list_deep, output, error);
+    }
+    
+    if(!itemize)
+    {
+                //write missings \end{itemize}
+        if(stop_itemization == true)
+        {
+            std::string begin = "";
+            for(int x = list_deep; x != 0; x--)
+            {
+                begin = gereateTabulatorDeep(x);
+                writeToFile(begin + ConstStrings::string_end_itemize, output);
+            }
+            list_deep = 0;
+        }
+    }
+
+
+
     // if #table is found, checkTable
     if( (found_pos = in.find(ConstStrings::marker_table)) != std::string::npos)
     {
@@ -362,13 +452,6 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
         in += ConstStrings::string_close_bracket;
         writeToFile(in, output);
     }
-    // if "-" was found check for itemization
-    else if( ( (found_pos = in.find(ConstStrings::marker_listentry) ) != std::string::npos)
-     &&  ((found_pos == 0) || (in.at(found_pos-1) == ' ')) && (stop_itemization == true) )
-    {
-        checkForSimpleCharacterReplacements(in);
-        checkItemization(in, list_deep, output, error);
-    }
     // if "#doctitle" is found
     else if( (found_pos = in.find(ConstStrings::marker_doctitle)) != std::string::npos )
     {
@@ -388,19 +471,13 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
         // characters which are enclosed in gotex commands
         checkForSimpleCharacterReplacements(in);
         
-        //write missings \end{itemize}
-        if(stop_itemization == true)
-        {
-            std::string begin = "";
-            for(int x = list_deep; x != 0; x--)
-            {
-                begin = gereateTabulatorDeep(x);
-                writeToFile(begin + ConstStrings::string_end_itemize, output);
-            }
-            list_deep = 0;
-        }
+        if(!itemize)
         writeToFile(in, output);
+
     }
+    
+    
+    
     return false;
 }
 
