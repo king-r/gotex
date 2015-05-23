@@ -16,26 +16,28 @@
 #include "GlobalHelperFunctions.h"
 
 // basic functions
-void FileOperator::newFile(GtkSourceBuffer *buffer)
+void FileOperator::newFile(GtkTextBuffer *buffer)
 {
-    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), "", 0);
+    gtk_text_buffer_set_text(buffer, "", 0);
+
     ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(buffer), "error");
     error->opened_file = "";
 }
 
 
-void FileOperator::saveFileAs(GtkSourceView* textview, ConstStrings *error)
+void FileOperator::saveFileAs(GtkTextView* textview, ConstStrings *error)
 {
     error->opened_file = "";
     checkSaveFile(textview, error);
 }
 
 
-void FileOperator::checkSaveFile(GtkSourceView* textview, ConstStrings *error)
+void FileOperator::checkSaveFile(GtkTextView* textview, ConstStrings *error)
 {
      // Get Error & String Handler
-    GtkSourceBuffer *buffer = GTK_SOURCE_BUFFER( gtk_text_view_get_buffer( GTK_TEXT_VIEW(textview) ) );
-    if(gtk_text_buffer_get_modified( GTK_TEXT_BUFFER(buffer) ) || error->opened_file == "")
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer (textview);
+
+    if(gtk_text_buffer_get_modified(buffer) || error->opened_file == "")
     {
         if(error->opened_file == "")
         {
@@ -74,7 +76,7 @@ void FileOperator::checkSaveFile(GtkSourceView* textview, ConstStrings *error)
 }
 
 
-void FileOperator::saveFile(GtkSourceView *textview, std::string filename)
+void FileOperator::saveFile(GtkTextView *textview, std::string filename)
 {
     
     ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(textview), "error");
@@ -85,14 +87,14 @@ void FileOperator::saveFile(GtkSourceView *textview, std::string filename)
     error->opened_file = filename;
     gtk_widget_set_sensitive (GTK_WIDGET(textview), FALSE);
     // get text buffer
-    GtkSourceBuffer *buffer = GTK_SOURCE_BUFFER(gtk_text_view_get_buffer (GTK_TEXT_VIEW(textview) ) );
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer (textview);
     char *text = NULL;
     // get iterators
     GtkTextIter iter_start, iter_end;
-    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(buffer), &iter_start);
-    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(buffer), &iter_end);
+    gtk_text_buffer_get_start_iter (buffer, &iter_start);
+    gtk_text_buffer_get_end_iter (buffer, &iter_end);
     // read textview-content
-    text = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer), &iter_start, &iter_end, FALSE);
+    text = gtk_text_buffer_get_text(buffer, &iter_start, &iter_end, FALSE);
     // save content
     gboolean result = g_file_set_contents(filename.c_str(), text, -1, NULL);
     if (result == FALSE)
@@ -101,7 +103,7 @@ void FileOperator::saveFile(GtkSourceView *textview, std::string filename)
     }
     else
     {
-        gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(buffer), FALSE);
+        gtk_text_buffer_set_modified (buffer, FALSE);
         error->PrintLogMessage(0,"");
         error->PrintLogMessage(2000, GlobalHelperFunctions::getFilenameFromFullPath(filename));
     }
@@ -112,7 +114,7 @@ void FileOperator::saveFile(GtkSourceView *textview, std::string filename)
 }
 
 
-void FileOperator::openFile(GtkSourceBuffer* buffer)
+void FileOperator::openFile(GtkTextBuffer* buffer)
 {
     // Get Error & String Handler
     ConstStrings *error = (ConstStrings*) g_object_get_data(G_OBJECT(buffer), "error");
@@ -163,11 +165,11 @@ void FileOperator::openFile(GtkSourceBuffer* buffer)
                 line = line + "\n";
                 GtkTextIter endOfTextInput;
                 gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer), &endOfTextInput);
-                gtk_text_buffer_insert(GTK_TEXT_BUFFER(buffer), &endOfTextInput, line.c_str(), -1);
+                gtk_text_buffer_insert(buffer, &endOfTextInput, line.c_str(), -1);
             }
         }
         
-        gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(buffer), TRUE);
+        gtk_text_buffer_set_modified (buffer, TRUE);
         
         g_free(content);
         
@@ -183,7 +185,7 @@ void FileOperator::openFile(GtkSourceBuffer* buffer)
 
 }
 
-void FileOperator::createTexFile(GtkSourceView* textview, ConstStrings *error)
+void FileOperator::createTexFile(GtkTextView* textview, ConstStrings *error)
 {
     error->PrintLogMessage(0,"");
     error->PrintLogMessage(3002, "");
@@ -206,14 +208,14 @@ void FileOperator::createTexFile(GtkSourceView* textview, ConstStrings *error)
     output.close();
 }
 
-void FileOperator::goTex(GtkSourceView* textview, GtkSourceBuffer *buffer, ConstStrings *error)
+void FileOperator::goTex(GtkTextView* textview, GtkTextBuffer *buffer, ConstStrings *error)
 {
     error->PrintLogMessage(0,"");
     error->PrintLogMessage(3001, "");
     
     // check if file needs to be saved
     bool delete_files = 0;
-    if(gtk_text_buffer_get_modified(GTK_TEXT_BUFFER(buffer)) || error->opened_file == "")
+    if(gtk_text_buffer_get_modified(buffer) || error->opened_file == "")
     {
         createTexFile(textview, error);
         delete_files = 1;

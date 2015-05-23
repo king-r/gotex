@@ -14,7 +14,7 @@ public:
     static void setKeepTexFileConfig(ConstStrings *error);
     static void setKeepLogFileConfig(ConstStrings *error);
     static void setKeepAuxFileConfig(ConstStrings *error);
-    static void setDocumentClassConfig(GtkComboBoxText *sender, GtkSourceBuffer *buffer, ConstStrings *error);
+    static void setDocumentClassConfig(GtkComboBoxText *sender, GtkTextBuffer *buffer, ConstStrings *error);
     
     ProgramConfig();
     ProgramConfig(const ProgramConfig& orig);

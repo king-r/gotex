@@ -70,7 +70,7 @@ void ProgramConfig::setKeepAuxFileConfig(ConstStrings* error)
     }
 }
 
-void ProgramConfig::setDocumentClassConfig(GtkComboBoxText* sender, GtkSourceBuffer* buffer, ConstStrings *error)
+void ProgramConfig::setDocumentClassConfig(GtkComboBoxText* sender, GtkTextBuffer* buffer, ConstStrings *error)
 {
     gtk_text_buffer_set_modified(GTK_TEXT_BUFFER(buffer), TRUE);
     

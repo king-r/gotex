@@ -12,13 +12,13 @@
 class FileOperator {
 public:
     // functions
-    static void newFile(GtkSourceBuffer *buffer);
-    static void saveFileAs(GtkSourceView *textview, ConstStrings *error);
-    static void checkSaveFile(GtkSourceView *textview, ConstStrings *error);
-    static void saveFile(GtkSourceView *textview, std::string filename);
-    static void openFile(GtkSourceBuffer *buffer);
-    static void createTexFile(GtkSourceView *textview, ConstStrings *error);
-    static void goTex(GtkSourceView *textview, GtkSourceBuffer *buffer, ConstStrings *error);
+    static void newFile(GtkTextBuffer *buffer);
+    static void saveFileAs(GtkTextView *textview, ConstStrings *error);
+    static void checkSaveFile(GtkTextView *textview, ConstStrings *error);
+    static void saveFile(GtkTextView *textview, std::string filename);
+    static void openFile(GtkTextBuffer *buffer);
+    static void createTexFile(GtkTextView *textview, ConstStrings *error);
+    static void goTex(GtkTextView *textview, GtkTextBuffer *buffer, ConstStrings *error);
     static void clearLog(GtkTextBuffer *log_buffer, ConstStrings *error);
     
     // con- & destructor

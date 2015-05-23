@@ -11,19 +11,19 @@
 class BufferModificator {
 public:
     // functions
-    static void insertNewSection(GtkSourceBuffer *buffer);
-    static void insertNewSubsection(GtkSourceBuffer *buffer);
-    static void insertNewImage(GtkSourceBuffer *buffer);
-    static void insertNewTable(GtkSourceBuffer *buffer);
-    static void insertItemization(GtkSourceBuffer *buffer);
-    static void surroundTextSelection(GtkSourceBuffer *buffer, std::string text_left, std::string text_right);
+    static void insertNewSection(GtkTextBuffer *buffer);
+    static void insertNewSubsection(GtkTextBuffer *buffer);
+    static void insertNewImage(GtkTextBuffer *buffer);
+    static void insertNewTable(GtkTextBuffer *buffer);
+    static void insertItemization(GtkTextBuffer *buffer);
+    static void surroundTextSelection(GtkTextBuffer *buffer, std::string text_left, std::string text_right);
     
     BufferModificator();
     BufferModificator(const BufferModificator& orig);
     virtual ~BufferModificator();
 private:
     // helpers
-    static void getIterAtCursor(GtkTextIter &iter, GtkSourceBuffer *buffer);
+    static void getIterAtCursor(GtkTextIter &iter, GtkTextBuffer *buffer);
 
 };
 
