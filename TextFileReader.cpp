@@ -130,6 +130,8 @@ void TextFileReader::checkForModesOn(ConstStrings* error)
         error->PrintLogMessage(1013, "");
     if(error->mode_matharray_star)
         error->PrintLogMessage(1014, "");
+    if(error->mode_pure_tex)
+        error->PrintLogMessage(1015, "");
     
     // reset modes
     error->mode_center = false;
@@ -140,6 +142,7 @@ void TextFileReader::checkForModesOn(ConstStrings* error)
     error->mode_math = false;
     error->mode_matharray = false;
     error->mode_matharray_star = false;
+    error->mode_pure_tex = false;
 }
 
 

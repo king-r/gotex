@@ -29,7 +29,6 @@ void GtkManager::start(int &argc, char** &argv, ConstStrings *error)
         //error->PrintErrorMessage(5);
         error->PrintLogMessage(1010, "");
     }
-    
 
     ///////////////////////////
     // Connecting signal handlers to the constructed widgets.

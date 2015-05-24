@@ -241,7 +241,7 @@ void FileOperator::goTex(GtkTextView* textview, GtkTextBuffer *buffer, ConstStri
             + filename + "\" | grep \".*:[0-9]*:.*\"";
 
     // check for '&' in path here TODO
-    error->PrintLogMessage(1, pdfcommand);
+    //error->PrintLogMessage(1, pdfcommand);
     
     system(pdfcommand.c_str());
         

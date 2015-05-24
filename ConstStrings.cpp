@@ -44,6 +44,7 @@ const std::string ConstStrings::marker_base_author = "#AUTHOR#";
 const std::string ConstStrings::marker_correction_table_columns = "#COLUMNS#";
 // marker strings 
 const std::string ConstStrings::marker_tex = "#tex";
+const std::string ConstStrings::marker_tex_end = "tex#";
 const std::string ConstStrings::marker_titlepage = "#titlepage";
 const std::string ConstStrings::marker_img = "#img";
 const std::string ConstStrings::marker_img_small = "#img small";
@@ -149,6 +150,7 @@ const string ConstStrings::log_message_todo_mode_on = "#todo was not closed (tod
 const string ConstStrings::log_message_math_mode_on = "#math was not closed (math# missing)"; 
 const string ConstStrings::log_message_matharray_mode_on = "#matharray was not closed (matharray# missing)";
 const string ConstStrings::log_message_matharray_star_mode_on = "#matharray* was not closed (matharray# missing)";
+const string ConstStrings::log_message_tex_mode_on = "#tex was not closed (tex# misssing)";
 const string ConstStrings::log_message_action_gotex = "Started Go Tex!";//LC: 11
 const string ConstStrings::log_message_action_tex_created = "Started Tex File Creation!"; //LC: 12
 const string ConstStrings::log_message_file_base = "Error opening basefile.";         // LC: 13
@@ -238,6 +240,8 @@ void ConstStrings::PrintLogMessage(int code, std::string insert)
         case 1013: message = message + log_message_matharray_mode_on; break;
         // error matharray* mode still on
         case 1014: message = message + log_message_matharray_star_mode_on; break;
+        // error #tex is still on 
+        case 1015: message = message + log_message_tex_mode_on; break;
         
         ///////////////////
         // Info Messages
@@ -332,6 +336,8 @@ ConstStrings::ConstStrings() {
     mode_matharray = false;
     mode_matharray_star = false;
     mode_inline_math = false;
+    
+    mode_pure_tex = false;
     
     itemize_last_line = false;
 }

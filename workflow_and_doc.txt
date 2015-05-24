@@ -4,26 +4,21 @@
 -------------------- Workflow ----------------------
 
     Considerations:
-    
-    - split pdf-textpage into left & right ( & optional middle)
-    - replace %, Comments?
-    - Img no absolut paths? - maybe configurable?
-    - auto completion
-    - table with double \hline?
-    - key-bindings
-    - documentclass as command?
-    - images: paths or filenames (or both) ?
+
     - document config generator
-    - make makros possible
+    - replace %, Comments?
+    - key-bindings
     - dictonary for special characters (e.g. greek letters)
-    - more log-messages - where?
-        - forgot to open mode (e.g. math)
-        - code review error messages
-        - started xxx ... ended xxx? (e.g.: stared gotex ended gotex
-    - pure tex-code command - pure tex in document possible?
-    - remove grep from pdfcommand and remove latex errors?
+    - Img no absolut paths? - maybe configurable?
+    - documentclass as command?
     - textput.log delete?
     - tempfile deleted always?
+    - split pdf-textpage into left & right ( & optional middle)
+    - table with double \hline?
+    - remove grep from pdfcommand and remove latex errors? - configurable?
+    - auto completion
+
+    - inline pure-tex command
 
 ------------------------
 
@@ -34,13 +29,19 @@
 
     Work packages: 
 
-    - change GtkTextView to GtkSourceView
-        - insert line number into log messages
+    - more log-messages - where?
+        - forgot to open mode (e.g. math)
+        - code review error messages
+        - started xxx ... ended xxx? (e.g.: stared gotex ended gotex )
+    - open openfile dialogue only once
+    - make makros possible
 
 ------------------------
 
     Not so easy tasks: 
 
+    - change GtkTextView to GtkSourceView
+        - insert line number into log messages
     - rework fork algorithm
     - GUI - Menu - mirate documentclass
 
@@ -48,6 +49,7 @@
 
     Done:
 
+    - pure tex-code command - non-inline
     - minus (-) in math-mode - never itemisation! - math mode recognition
     - matharray mode : #matharray matharray#
     - scroll while writing
@@ -85,7 +87,6 @@
     - error opening tex file instead of pdf
     - change window title to document-name
     - deleting tempfiles error    - problems with paths which include '&' - problem of pdflatex
-
     - character replacements work in itemization
     - tabulatordeep also for #pause
     - split LineStringBuilder::handleString into functions
@@ -115,6 +116,8 @@
     - usage of '#' at beginning of a line
     - ## produces same ouput 
     - # has no extra space character in output
+
+    
 
 ----------------------------------------------------
 -------------- Command Documentation --------------
@@ -154,8 +157,8 @@ No specific documentclass:
 
 #ital text ital#                write text italic
                                                 _________
-#table <columns>                Create a Table |lala|hihi|, takes whole line
-    lala|hihi                   <columns> must be 2
+#table                          Create a Table |lala|hihi|, takes whole line
+    lala|hihi                   
 table#
 
 #center text center#

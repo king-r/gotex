@@ -11,6 +11,7 @@
 #include <string>
 #include <stdlib.h>
 #include <vector>
+#include <algorithm>
 
 #include "LineStringBuilder.h"
 
@@ -23,7 +24,7 @@
 // handles line from textfile 
 // return-val: line from file
 // includes the following commands:
-// - #tex
+// - #tex tex#
 // - #img
 // - #titlepage
 //
@@ -62,8 +63,10 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
     // #tex command
     //
     exit = checkForTexCommand(in, output, error);
-    if(exit == true)
-    {
+    if((error->mode_pure_tex))
+    {        
+        if(!exit)
+            writeToFile(in, output);
         return in;
     }
     
@@ -225,18 +228,32 @@ std::string LineStringBuilder::generateColumnsFromInt(int columns)
 
 ////////////////////////////////
 // check for #tex command
-//   return: continue
+//   return: #tex or tex# found
+//   sets mode_pure_tex
 bool LineStringBuilder::checkForTexCommand(std::string& in, std::ofstream &output, ConstStrings *error) 
 {
+    //std::cout << "---------------------------" << std::endl;
     size_t found_pos = 0;
-
+    bool exit = false;
     if(found_pos = in.find(error->marker_tex) != std::string::npos)
     {
+        //std::cout << "found tex begin: " << in << std::endl;
         in.erase(found_pos - 1, error->marker_tex.size() + 1);
-        writeToFile(in, output);
-        return true;
-    }     
-    return false;
+        //std::cout << "erased tex marker: " << in << std::endl;
+        error->mode_pure_tex = true;
+        exit = true;
+    }
+    
+    if(found_pos = in.find(error->marker_tex_end) != std::string::npos)
+    {
+        //std::cout << "found tex end: " << in << std::endl;
+        //std::cout << "pos: " << found_pos << " " << "size: " << error->marker_tex_end.size() << std::endl;
+        in.erase(found_pos - 1, error->marker_tex_end.size());
+        //std::cout << "erase tex end marker: " << in << std::endl;
+        error->mode_pure_tex = false;
+        exit = true;
+    }
+    return exit;
 }
 
 

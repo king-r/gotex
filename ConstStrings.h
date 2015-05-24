@@ -47,6 +47,7 @@ public:
     static const std::string marker_correction_table_columns;
     // user command marker
     static const std::string marker_tex;
+    static const std::string marker_tex_end;
     static const std::string marker_titlepage;
     static const std::string marker_img;
     static const std::string marker_img_small;
@@ -115,6 +116,7 @@ public:
     static const std::string log_message_math_mode_on;
     static const std::string log_message_matharray_mode_on;
     static const std::string log_message_matharray_star_mode_on;
+    static const std::string log_message_tex_mode_on;
     
     
 
@@ -237,6 +239,8 @@ public:
     bool mode_matharray;
     bool mode_matharray_star;
     bool mode_inline_math;
+    
+    bool mode_pure_tex;
     
     bool itemize_last_line;
 };
