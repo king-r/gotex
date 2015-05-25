@@ -77,6 +77,7 @@ const std::string ConstStrings::marker_math_end = "math#";
 const std::string ConstStrings::marker_matharray = "#matharray";
 const std::string ConstStrings::marker_matharray_end = "matharray#";
 const std::string ConstStrings::marker_matharray_star = "#matharray*";
+const std::string ConstStrings::marker_textex = "TEXTEXT ";
 
 // strings to be replaced
 const std::string ConstStrings::marker_ldots = "...";
@@ -317,6 +318,8 @@ ConstStrings::ConstStrings() {
     document_author = "";
     
     table_counter = 0;
+    
+    count_insert = 0;
     
     log_buffer = NULL;
 		log_adj = NULL;

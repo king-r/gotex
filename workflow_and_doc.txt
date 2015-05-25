@@ -147,7 +147,7 @@ Beamer only:
 
 No specific documentclass:
 
-#tex                            to produce pure latex code  takes whole line
+#tex  #tex                      to produce pure latex code  takes whole line
 
 #doctitle                       sets the documents title    takes whole line
 

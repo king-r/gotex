@@ -105,6 +105,9 @@ void TextFileReader::ReadNotesFile(std::ofstream &output, const char *notes_file
         writeToFile(begin + ConstStrings::string_end_itemize, output);
     }
     list_deep = 0;
+    error->vector_textext.erase(error->vector_textext.begin(), error->vector_textext.end());
+    error->count_insert = 0;
+    
     
     // check for modes still on
     checkForModesOn(error);

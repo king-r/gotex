@@ -81,6 +81,7 @@ public:
     static const std::string marker_matharray_end;
     static const std::string marker_matharray_star;
     static const std::string marker_matharray_star_end;
+    static const std::string marker_textex;
     // Strings to be replaced
     static const std::string marker_ldots;
     static const std::string marker_and;
@@ -218,6 +219,10 @@ public:
     tableoftables vector_of_tables;
     // active_table-1
     int table_counter;
+    
+    // tex command 
+    std::vector<std::string> vector_textext;
+    int count_insert;
     
     // log buffer of logmessage
     GtkTextBuffer *log_buffer;

@@ -16,6 +16,7 @@
 #include "LineStringBuilder.h"
 
 #include "ConstStrings.h"
+#include "BufferModificator.h"
 
 
 ////////////////////////////////
@@ -63,12 +64,12 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
     // #tex command
     //
     exit = checkForTexCommand(in, output, error);
-    if((error->mode_pure_tex))
-    {        
-        if(!exit)
-            writeToFile(in, output);
-        return in;
-    }
+//    if((error->mode_pure_tex))
+//    {        
+//        if(!exit)
+//            writeToFile(in, output);
+//        return in;
+//    }
     
     ////////////////////////////////
     // simple replacements
@@ -107,6 +108,9 @@ std::string LineStringBuilder::handleString(std::string in, std::ofstream &outpu
     ////////////////////////////////
     // non-combinable command algorithms
     exit = checkForNonCombinableCommands(in, output, list_deep, stop_itemization, error);    
+    
+    ////////////////////////////////
+    // pure tex insertion
     
     return in;
 }
@@ -232,30 +236,58 @@ std::string LineStringBuilder::generateColumnsFromInt(int columns)
 //   sets mode_pure_tex
 bool LineStringBuilder::checkForTexCommand(std::string& in, std::ofstream &output, ConstStrings *error) 
 {
-    //std::cout << "---------------------------" << std::endl;
-    size_t found_pos = 0;
-    bool exit = false;
-    if(found_pos = in.find(error->marker_tex) != std::string::npos)
+    size_t found_pos_tex = 0, found_pos_tex_end = 0;
+
+    while( ( (found_pos_tex = in.find(error->marker_tex)) != std::string::npos ) &&
+           ( (found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos ) )
     {
-        //std::cout << "found tex begin: " << in << std::endl;
-        in.erase(found_pos - 1, error->marker_tex.size() + 1);
-        //std::cout << "erased tex marker: " << in << std::endl;
-        error->mode_pure_tex = true;
-        exit = true;
+        // replace text enclosed by commands with "TEXTEXT "
+        std::string textext_with_command = in.substr(found_pos_tex, found_pos_tex_end - found_pos_tex + error->marker_tex_end.size());
+        int before_tex_end = found_pos_tex_end - found_pos_tex - error->marker_tex.size() - 2;
+        std::cout << textext_with_command << std::endl; 
+        std::string textext = textext_with_command.substr( error->marker_tex.size()+1,  before_tex_end);
+        replaceIfFound(in, textext_with_command, error->marker_textex, NULL);
+        error->vector_textext.push_back(textext);
+        std::cout << textext << std::endl; 
     }
-    
-    if(found_pos = in.find(error->marker_tex_end) != std::string::npos)
+
+    if( ( found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos )
     {
-        //std::cout << "found tex end: " << in << std::endl;
-        //std::cout << "pos: " << found_pos << " " << "size: " << error->marker_tex_end.size() << std::endl;
-        in.erase(found_pos - 1, error->marker_tex_end.size());
-        //std::cout << "erase tex end marker: " << in << std::endl;
+        std::string textext = in.substr(0, found_pos_tex_end + error->marker_tex_end.length());
+        //std::cout << textext << std::endl; 
+        replaceIfFound(in, textext, error->marker_textex, NULL);
         error->mode_pure_tex = false;
-        exit = true;
+        textext = textext.substr(0, textext.size() - error->marker_tex_end.size());
+        std::cout << textext << std::endl; 
+        error->vector_textext.push_back(textext);
     }
-    return exit;
+    if( ( found_pos_tex = in.find(error->marker_tex) ) != std::string::npos )
+    {
+        std::string textext = in.substr(found_pos_tex, in.size()-found_pos_tex-1);
+        //std::cout << textext << std::endl; 
+        replaceIfFound(in, textext, error->marker_textex, NULL);
+        error->mode_pure_tex = true;
+        textext = textext.substr(error->marker_tex.size()+1, textext.size());
+        std::cout << textext << std::endl; 
+        error->vector_textext.push_back(textext);
+    }
 }
 
+
+void LineStringBuilder::checkForTexCommandInsertion(std::string& in, std::ofstream& output, ConstStrings* error)
+{
+    
+    size_t found_pos = 0;
+    
+    while((found_pos = in.find(error->marker_textex)) != std::string::npos)
+    {
+
+        in.erase(found_pos, error->marker_textex.size()-1);
+        in.insert(found_pos, error->vector_textext.at(error->count_insert));
+        error->count_insert++;
+    }
+    
+}
 
 ////////////////////////////////
 // checks if table mode is on
@@ -488,8 +520,11 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
         // characters which are enclosed in gotex commands
         checkForSimpleCharacterReplacements(in);
         
+        checkForTexCommandInsertion(in, output, error);
+
+        
         if(!itemize)
-        writeToFile(in, output);
+            writeToFile(in, output);
 
     }
     
