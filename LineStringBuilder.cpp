@@ -238,39 +238,49 @@ bool LineStringBuilder::checkForTexCommand(std::string& in, std::ofstream &outpu
 {
     size_t found_pos_tex = 0, found_pos_tex_end = 0;
 
-    while( ( (found_pos_tex = in.find(error->marker_tex)) != std::string::npos ) &&
-           ( (found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos ) )
+    if( ( ( found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos ) &&
+            (error->mode_pure_tex == true) )
     {
-        // replace text enclosed by commands with "TEXTEXT "
-        std::string textext_with_command = in.substr(found_pos_tex, found_pos_tex_end - found_pos_tex + error->marker_tex_end.size());
-        int before_tex_end = found_pos_tex_end - found_pos_tex - error->marker_tex.size() - 2;
-        std::cout << textext_with_command << std::endl; 
-        std::string textext = textext_with_command.substr( error->marker_tex.size()+1,  before_tex_end);
-        replaceIfFound(in, textext_with_command, error->marker_textex, NULL);
-        error->vector_textext.push_back(textext);
-        std::cout << textext << std::endl; 
-    }
-
-    if( ( found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos )
-    {
+        std::cout << "------------------------------------" << std::endl;
+        std::cout << error->marker_tex_end << " found" << std::endl;
         std::string textext = in.substr(0, found_pos_tex_end + error->marker_tex_end.length());
-        //std::cout << textext << std::endl; 
+        std::cout << "textext with command: " << textext << std::endl; 
         replaceIfFound(in, textext, error->marker_textex, NULL);
         error->mode_pure_tex = false;
         textext = textext.substr(0, textext.size() - error->marker_tex_end.size());
-        std::cout << textext << std::endl; 
+        std::cout << "textext: " << textext << std::endl; 
         error->vector_textext.push_back(textext);
     }
+
+    while( ( (found_pos_tex = in.find(error->marker_tex)) != std::string::npos ) &&
+           ( (found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos ) )
+    {
+        std::cout << "------------------------------------" << std::endl;
+        std::cout << error->marker_tex << " & " << error->marker_tex_end << " found" << std::endl;
+        // replace text enclosed by commands with "TEXTEXT "
+        std::string textext_with_command = in.substr(found_pos_tex, found_pos_tex_end - found_pos_tex + error->marker_tex_end.size());
+        int before_tex_end = found_pos_tex_end - found_pos_tex - error->marker_tex.size() - 2;
+        std::cout << "textext_with_command: "<< textext_with_command << std::endl; 
+        std::string textext = textext_with_command.substr( error->marker_tex.size()+1,  before_tex_end);
+        replaceIfFound(in, textext_with_command, error->marker_textex, NULL);
+        error->vector_textext.push_back(textext);
+        std::cout << "textext: " << textext << std::endl; 
+    }
+    
     if( ( found_pos_tex = in.find(error->marker_tex) ) != std::string::npos )
     {
-        std::string textext = in.substr(found_pos_tex, in.size()-found_pos_tex-1);
-        //std::cout << textext << std::endl; 
+        std::cout << "------------------------------------" << std::endl;
+        std::cout << error->marker_tex << " found" << std::endl;
+        std::string textext = in.substr(found_pos_tex, in.size()-found_pos_tex);
+        std::cout << "textext with command: "<< textext << std::endl; 
         replaceIfFound(in, textext, error->marker_textex, NULL);
         error->mode_pure_tex = true;
-        textext = textext.substr(error->marker_tex.size()+1, textext.size());
-        std::cout << textext << std::endl; 
+        std::cout << "textex_1: " << error->marker_tex.size()+1 << " textext_2: " << textext.size() << std::endl; 
+        std::cout << "textext: " << textext << std::endl; 
+        textext = textext.substr(error->marker_tex.size(), textext.size());
         error->vector_textext.push_back(textext);
     }
+
 }
 
 
