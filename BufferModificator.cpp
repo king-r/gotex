@@ -225,14 +225,27 @@ void BufferModificator::surroundTextSelection(GtkTextBuffer* buffer, std::string
     if(gtk_text_buffer_get_has_selection(buffer))
     {
         // set marker strings
-        std::string marker_start = " " + text_left + " ";
-        std::string marker_end = " " + text_right + " ";
+        std::string marker_start = text_left + " ";
+        std::string marker_end = " " + text_right;
         
         // get selection bounds
         GtkTextIter iter_start, iter_end;
         gtk_text_buffer_get_selection_bounds(buffer, &iter_start, &iter_end);
         
-        // insert text
+        // check for empty space left of iter_start and right of iter_end
+        GtkTextIter iter_start_left = iter_start, iter_end_right = iter_end;
+        bool possible_back = gtk_text_iter_backward_char(&iter_start_left);
+        //bool possible_for = gtk_text_iter_forward_char(&iter_end_right);
+        if((possible_back == true) && (g_unichar_isspace(gtk_text_iter_get_char(&iter_start_left)) == false))
+        {
+          marker_start = " " + marker_start;
+        }
+        if(g_unichar_isspace(gtk_text_iter_get_char(&iter_end_right)) == false)
+        {
+          marker_end = marker_end + " ";
+        }
+         
+        // insert start-marker
         gtk_text_buffer_insert(buffer, &iter_start, marker_start.c_str(), -1);
 
         // insert end-marker ( and update selection bound iterators )
@@ -245,8 +258,7 @@ void BufferModificator::surroundTextSelection(GtkTextBuffer* buffer, std::string
     }
     else
     {
-        //error message - nothing selected
-        
+        //!TODO! error message - nothing selected
     }
     
     // focus textview

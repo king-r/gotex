@@ -5,6 +5,7 @@
 
     Considerations:
 
+    - stack trace printer
     - document config generator
     - replace %, Comments?
     - key-bindings
@@ -22,7 +23,6 @@
 ------------------------
 
     Bugs to fix:
-    - fat button - remove empty space at end after insertion
     - minus (-) in (sub)section never itemisation
     - #center #section lala center# - program crashes
     - & character often freezes program
@@ -52,6 +52,7 @@
 
     Done:
 
+    - fat button - remove empty space at end after insertion
     - > and < in mathmode usable
     - pure tex-code command - inline
     - pure tex-code command - non-inline
