@@ -43,7 +43,6 @@
 
     Not so easy tasks: 
 
-    - > and < in mathmode usable
     - change GtkTextView to GtkSourceView
         - insert line number into log messages
     - rework fork algorithm
@@ -53,6 +52,7 @@
 
     Done:
 
+    - > and < in mathmode usable
     - pure tex-code command - inline
     - pure tex-code command - non-inline
     - minus (-) in math-mode - never itemisation! - math mode recognition
