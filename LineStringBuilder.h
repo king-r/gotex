@@ -24,7 +24,7 @@ public:
     // string handler algorithms
     bool checkForTableMode(std::string &in, std::ofstream &output, ConstStrings *error);
     void checkForSimpleReplacements(std::string &in, ConstStrings *error);
-    void checkForSimpleCharacterReplacements(std::string &in);
+    void checkForSimpleCharacterReplacements(std::string &in, ConstStrings *error);
     bool checkForNonCombinableCommands(std::string &in, std::ofstream &output, int &list_deep, bool stop_itemization, ConstStrings *error);
     // gotex command algorithms
     bool checkForMathModeOn(std::string &in, size_t pos, ConstStrings *error);

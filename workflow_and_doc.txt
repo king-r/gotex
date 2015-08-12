@@ -18,12 +18,15 @@
     - remove grep from pdfcommand and remove latex errors? - configurable?
     - auto completion
 
-    - inline pure-tex command
-
+    - latex compile console output in log?
 ------------------------
 
     Bugs to fix:
-    
+    - fat button - remove empty space at end after insertion
+    - minus (-) in (sub)section never itemisation
+    - #center #section lala center# - program crashes
+    - & character often freezes program
+        example: Knowledge based systems are programs, designed to store information \& knowledge and emulate the work on a specific domain.
 
 ------------------------
 
@@ -40,6 +43,7 @@
 
     Not so easy tasks: 
 
+    - > and < in mathmode usable
     - change GtkTextView to GtkSourceView
         - insert line number into log messages
     - rework fork algorithm
@@ -49,6 +53,7 @@
 
     Done:
 
+    - pure tex-code command - inline
     - pure tex-code command - non-inline
     - minus (-) in math-mode - never itemisation! - math mode recognition
     - matharray mode : #matharray matharray#

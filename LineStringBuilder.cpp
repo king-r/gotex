@@ -241,42 +241,29 @@ bool LineStringBuilder::checkForTexCommand(std::string& in, std::ofstream &outpu
     if( ( ( found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos ) &&
             (error->mode_pure_tex == true) )
     {
-        std::cout << "------------------------------------" << std::endl;
-        std::cout << error->marker_tex_end << " found" << std::endl;
         std::string textext = in.substr(0, found_pos_tex_end + error->marker_tex_end.length());
-        std::cout << "textext with command: " << textext << std::endl; 
         replaceIfFound(in, textext, error->marker_textex, NULL);
         error->mode_pure_tex = false;
         textext = textext.substr(0, textext.size() - error->marker_tex_end.size());
-        std::cout << "textext: " << textext << std::endl; 
         error->vector_textext.push_back(textext);
     }
 
     while( ( (found_pos_tex = in.find(error->marker_tex)) != std::string::npos ) &&
            ( (found_pos_tex_end = in.find(error->marker_tex_end)) != std::string::npos ) )
     {
-        std::cout << "------------------------------------" << std::endl;
-        std::cout << error->marker_tex << " & " << error->marker_tex_end << " found" << std::endl;
         // replace text enclosed by commands with "TEXTEXT "
         std::string textext_with_command = in.substr(found_pos_tex, found_pos_tex_end - found_pos_tex + error->marker_tex_end.size());
         int before_tex_end = found_pos_tex_end - found_pos_tex - error->marker_tex.size() - 2;
-        std::cout << "textext_with_command: "<< textext_with_command << std::endl; 
         std::string textext = textext_with_command.substr( error->marker_tex.size()+1,  before_tex_end);
         replaceIfFound(in, textext_with_command, error->marker_textex, NULL);
         error->vector_textext.push_back(textext);
-        std::cout << "textext: " << textext << std::endl; 
     }
     
     if( ( found_pos_tex = in.find(error->marker_tex) ) != std::string::npos )
     {
-        std::cout << "------------------------------------" << std::endl;
-        std::cout << error->marker_tex << " found" << std::endl;
         std::string textext = in.substr(found_pos_tex, in.size()-found_pos_tex);
-        std::cout << "textext with command: "<< textext << std::endl; 
         replaceIfFound(in, textext, error->marker_textex, NULL);
         error->mode_pure_tex = true;
-        std::cout << "textex_1: " << error->marker_tex.size()+1 << " textext_2: " << textext.size() << std::endl; 
-        std::cout << "textext: " << textext << std::endl; 
         textext = textext.substr(error->marker_tex.size(), textext.size());
         error->vector_textext.push_back(textext);
     }
@@ -434,7 +421,7 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
             (stop_itemization == true) )
     {
         itemize = true;
-        checkForSimpleCharacterReplacements(in);
+        checkForSimpleCharacterReplacements(in, error);
         checkItemization(in, list_deep, output, error);
     }
     
@@ -528,7 +515,7 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
     else
     {
         // characters which are enclosed in gotex commands
-        checkForSimpleCharacterReplacements(in);
+        checkForSimpleCharacterReplacements(in, error);
         
         checkForTexCommandInsertion(in, output, error);
 
@@ -552,7 +539,7 @@ bool LineStringBuilder::checkForNonCombinableCommands(std::string& in, std::ofst
 // - &
 // - >
 // - <
-void LineStringBuilder::checkForSimpleCharacterReplacements(std::string& in) 
+void LineStringBuilder::checkForSimpleCharacterReplacements(std::string& in, ConstStrings *error) 
 {
     // if "..." is found replace with " \\ldots"
     replaceIfFound(in, ConstStrings::marker_ldots, " " + ConstStrings::string_ldots + " ", NULL);
@@ -560,11 +547,30 @@ void LineStringBuilder::checkForSimpleCharacterReplacements(std::string& in)
     replaceIfFoundWithoutCharacter(in, ConstStrings::marker_hashtag, ConstStrings::string_hashtag, '\\');
     // if "&" was found replace with "\&"
     replaceIfFoundWithoutCharacter(in, ConstStrings::marker_and, ConstStrings::string_and, '\\');
-    // if ">" was found replace with "$>$"
-    replaceIfFoundWithoutCharacter(in, ConstStrings::marker_bigger_than, ConstStrings::string_bigger_than, '$');
-    // if "<" was found replace with "$<$"
-    replaceIfFoundWithoutCharacter(in, ConstStrings::marker_smaller_than, ConstStrings::string_smaller_than, '$');
     
+    
+    // check if "<" or ">" is found, then check if math mode is on
+    size_t pos_smaller = in.find('<');
+    if(pos_smaller != std::string::npos)
+    {
+      bool math_mode = checkForMathModeOn(in, pos_smaller, error);
+      // if "<" was found replace with "$<$"
+      if(math_mode == false)
+      {
+        replaceIfFoundWithoutCharacter(in, ConstStrings::marker_smaller_than, ConstStrings::string_smaller_than, '$');
+      }
+    }
+    
+    size_t pos_bigger = in.find('>');
+    if(pos_bigger != std::string::npos)
+    {
+      bool math_mode = checkForMathModeOn(in, pos_bigger, error);
+      // if ">" was found replace with "$>$"
+      if(math_mode == false)
+      {
+        replaceIfFoundWithoutCharacter(in, ConstStrings::marker_bigger_than, ConstStrings::string_bigger_than, '$');
+      }  
+    }
     return;
 }
 
